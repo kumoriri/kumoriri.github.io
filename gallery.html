@@ -1,8 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8"> <!-- 添加字符编码声明 -->
   <title>黄春画廊</title>
   <style>
+    /* 设置标题样式 */
+    h1 {
+      color: #ffce33; /* 文字颜色为黄色 */
+      text-align: center; /* 文字居中 */
+    }
+
     /* 设置图片的大小 */
     img {
       width: 300px; /* 你可以根据需要调整宽度 */
@@ -10,12 +17,33 @@
       display: block; /* 让图片独占一行 */
       margin: 10px auto; /* 居中显示，并添加一些间距 */
     }
+
+    /* 设置返回按钮样式 */
+    .back-button {
+      display: block; /* 让按钮独占一行 */
+      width: 100px; /* 按钮宽度 */
+      margin: 20px auto; /* 居中显示 */
+      padding: 10px; /* 内边距 */
+      text-align: center; /* 文字居中 */
+      background-color: #0366d6; /* 背景颜色 */
+      color: white; /* 文字颜色 */
+      text-decoration: none; /* 去掉下划线 */
+      border-radius: 5px; /* 圆角 */
+    }
+
+    /* 鼠标悬停时按钮样式 */
+    .back-button:hover {
+      background-color: #0056b3; /* 背景颜色变深 */
+    }
   </style>
 </head>
 <body>
-  <h1>黄春画廊</h1>
+  <h1>안녕! 난 황춘 이아!</h1>
   <img src="images/hc1.jpg" alt="黄春1">
   <img src="images/hc2.jpg" alt="黄春2">
   <img src="images/hc3.jpg" alt="黄春3">
+
+  <!-- 返回按钮 -->
+  <a href="index.html" class="back-button">返回</a>
 </body>
 </html>
