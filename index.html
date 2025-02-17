@@ -18,6 +18,33 @@
 <body>
   <h1>Hello, GitHub Pages!</h1>
   <p>This is my first hosted website.</p>
-  <img src="images/hc.jpg" alt="黄春">
+  <img src="images/hc.jpg" alt="黄春" onclick="openModal()>
+
+  <!-- 模态框 -->
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <img class="mySlides" src="images/hc1.jpg">
+      <img class="mySlides" src="images/hc2.jpg">
+      <img class="mySlides" src="images/hc3.jpg">
+      <!-- 添加更多图片 -->
+    </div>
+  </div>
+
+  <script>
+    // 获取模态框
+    var modal = document.getElementById("myModal");
+
+    // 打开模态框
+    function openModal() {
+      modal.style.display = "block";
+      showSlides(1); // 显示第一张图片
+    }
+
+    // 关闭模态框
+    function closeModal() {
+      modal.style.display = "none";
+    }
+
 </body>
 </html>
