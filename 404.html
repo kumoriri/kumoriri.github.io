@@ -1,1 +1,62 @@
-nothing
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - OOPS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f8f9fa;
+    }
+    h1 {
+      color: #d9534f;
+      font-size: 4rem;
+    }
+    p {
+      font-size: 1.2rem;
+      color: #6c757d;
+    }
+    .search-box {
+      margin-top: 20px;
+    }
+    .search-box input {
+      padding: 10px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .search-box button {
+      padding: 10px 20px;
+      background-color: #0366d6;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .search-box button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>404</h1>
+  <p>黄春不在这里哦</p>
+  <div class="search-box">
+    <input type="text" id="search" placeholder="请找到黄春">
+    <button onclick="searchSite()">Search</button>
+  </div>
+  <p><a href="/">Return</a></p>
+
+  <script>
+    function searchSite() {
+      const query = document.getElementById('search').value;
+      if (query) {
+        window.location.href = `/search?q=${encodeURIComponent(query)}`;
+      }
+    }
+  </script>
+</body>
+</html>
