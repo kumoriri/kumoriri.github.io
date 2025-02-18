@@ -1,7 +1,47 @@
 <!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下载照片</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="gallery">
+        <div class="photo-item">
+            <img src="photo1.jpg" alt="照片1">
+            <input type="checkbox" class="photo-checkbox">
+        </div>
+        <div class="photo-item">
+            <img src="photo2.jpg" alt="照片2">
+            <input type="checkbox" class="photo-checkbox">
+        </div>
+        <div class="photo-item">
+            <img src="photo3.jpg" alt="照片3">
+            <input type="checkbox" class="photo-checkbox">
+        </div>
+        <!-- 更多照片 -->
+    </div>
+
+    <button id="download-btn">下载选中的照片</button>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+
+完整版
+
+
+
+
+<!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0"> <!-- 添加字符编码声明 -->
+  <meta charset="UTF-8"> <!-- 添加字符编码声明 -->
   <title>黄春大人的相册</title>
   <style>
     /* 设置标题样式 */
@@ -12,7 +52,7 @@
 
     /* 设置图片的大小 */
     img {
-      max width: 100%;
+      max-width: 100%;
       width: 400px; /* 你可以根据需要调整宽度 */
       height: auto; /* 保持图片的宽高比 */
       display: block; /* 让图片独占一行 */
@@ -33,7 +73,6 @@
       border-radius: 5px; /* 圆角 */
       white-space: normal;   /* 关键属性2：允许文字换行 */
       word-wrap: break-word; /* 关键属性3：允许长单词/URL换行 */
-
     }
 
     /* 鼠标悬停时按钮样式 */
@@ -65,18 +104,13 @@
     .photo-checkbox {
       display: block; /* 让复选框独占一行 */
       margin: 5px auto; /* 居中显示 */
-
+    }
   </style>
 </head>
 <body>
   <h1>안녕! 난 황춘 이아!</h1>
 
-  <!--在图片URL后添加随机参数 如时间戳?v=1 以绕过缓存
-  <img src="images/hc1.jpg?v=1" alt="黄春1"> 
-  <img src="images/hc2.jpg?v=1" alt="黄春2">
-  <img src="images/hc3.jpg?v=1" alt="黄春3">-->
-
-    <!-- 图片区域 -->
+  <!-- 图片区域 -->
   <div class="gallery">
     <div class="photo-item">
       <img src="images/hc1.jpg?v=1" alt="黄春1">
@@ -92,13 +126,12 @@
     </div>
   </div>
 
-    <!-- 下载按钮 -->
-  <button id="download-btn">Download</button>
+  <!-- 下载按钮 -->
+  <button id="download-btn">下载选中的照片</button>
 
   <!-- 返回按钮 -->
   <a href="index.html" class="back-button"> 안녕!<br>₍^.ᓀ - ᓂ ^₎</a> <!-- br控制换行-->
 
-  <!-- Script -->
   <script>
     // JavaScript 实现下载功能
     document.getElementById('download-btn').addEventListener('click', function() {
