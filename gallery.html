@@ -86,7 +86,7 @@
   </div>
 
     <!-- 下载按钮 -->
-  <button id="download-btn">下载春</button>
+  <button id="download-btn">allin春</button>
 
   <!-- 返回按钮 -->
   <a href="index.html" class="back-button"> 안녕!<br>₍^.ᓀ - ᓂ ^₎</a> <!-- br控制换行-->
@@ -104,6 +104,7 @@
           const imgUrl = img.src; // 获取图片URL
           const response = await fetch(imgUrl); // 获取图片数据
           const blob = await response.blob(); // 转换为Blob对象
+          const filename = `photo_${index + 1}.jpg`; // 生成文件名
           zip.file(filename, blob); // 将图片添加到ZIP中
         } catch (error) {
           console.error(`图片 ${img.src} 下载失败:`, error);
