@@ -1,0 +1,2 @@
+# 在 .gitignore 文件中添加以下内容
+**/.DS_Store
