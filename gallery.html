@@ -5,20 +5,35 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加字符编码声明 -->
   <title>黄春大人的相册</title>
   <style>
+    /* 重置默认边距和盒模型 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fff; /* 设置背景色避免默认浏览器背景干扰 */
+      padding: 20px; /* 添加内边距避免内容贴边 */
+    }
+
     /* 设置标题样式 */
     h1 {
       color: #ffce33; /* 文字颜色为黄色 */
       text-align: center; /* 文字居中 */
+      margin-bottom: 20px; /* 添加标题与图片间距 */
     }
 
     /* 设置图片的大小 */
     img {
-      max width: 100%;
+      max-width: 100%;
       width: 400px; /* 你可以根据需要调整宽度 */
       height: auto; /* 保持图片的宽高比 */
       display: block; /* 让图片独占一行 */
       margin: 10px auto; /* 居中显示，并添加一些间距 */
+      object-fit: contain; /* 保持图片比例 */
     }
+
 
     .button-container {
       display: flex;
@@ -28,7 +43,6 @@
       width: fit-content; /* 容器宽度适应内容 问题出现在这里 */
       flex-wrap: wrap; /* 添加响应式换行 */
     }
-
 
 
 
