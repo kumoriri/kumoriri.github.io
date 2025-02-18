@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta name="viewport" charset="UTF-8" content="width=device-width, initial-scale=1.0"> <!-- 添加字符编码声明 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 添加字符编码声明 -->
   <title>黄春大人的相册</title>
   <style>
     /* 设置标题样式 */
@@ -18,6 +19,36 @@
       display: block; /* 让图片独占一行 */
       margin: 10px auto; /* 居中显示，并添加一些间距 */
     }
+
+    .button-container {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin: 20px auto;
+      flex-wrap: wrap; /* 添加响应式换行 */
+    }
+
+    /* 设置下载按钮样式 */
+    .download-btn {
+      display: block; /* 让按钮独占一行 */
+      width: 200px; /* 按钮宽度 */
+      max-width: 100%; 
+      margin: 20px auto; /* 居中显示 */
+      padding: 10px; /* 内边距 */
+      text-align: center; /* 文字居中 */
+      background-color: #ffaf42; /* 背景颜色 */
+      color: white; /* 文字颜色 */
+      text-decoration: none; /* 去掉下划线 */
+      border-radius: 5px; /* 圆角 */
+      cursor: pointer; /* 鼠标指针样式 */
+      border: none; /* 可选：移除默认边框 */
+    }
+
+    /* 鼠标悬停时下载按钮样式 */
+    .download-btn:hover {
+      background-color: #f7a12c; /* 背景颜色变深 */
+    }
+
 
     /* 设置返回按钮样式 */
     .back-button {
@@ -41,26 +72,6 @@
       background-color: #0056b3; /* 背景颜色变深 */
     }
 
-    /* 设置下载按钮样式 */
-    #download-btn {
-      display: block; /* 让按钮独占一行 */
-      width: 200px; /* 按钮宽度 */
-      max-width: 100%; 
-      margin: 20px auto; /* 居中显示 */
-      padding: 10px; /* 内边距 */
-      text-align: center; /* 文字居中 */
-      background-color: #ffaf42; /* 背景颜色 */
-      color: white; /* 文字颜色 */
-      text-decoration: none; /* 去掉下划线 */
-      border-radius: 5px; /* 圆角 */
-      cursor: pointer; /* 鼠标指针样式 */
-    }
-
-    /* 鼠标悬停时下载按钮样式 */
-    #download-btn:hover {
-      background-color: #f7a12c; /* 背景颜色变深 */
-    }
-
     /* 设置复选框样式 */
     .photo-checkbox {
       display: block; /* 让复选框独占一行 */
@@ -73,20 +84,30 @@
 <body>
   <h1>안녕! 난 황춘 이아!</h1>
 
-  <!--在图片URL后添加随机参数 如时间戳?v=1 以绕过缓存
-  <img src="images/hc1.jpg?v=1" alt="黄春1"> 
-  <img src="images/hc2.jpg?v=1" alt="黄春2">
-  <img src="images/hc3.jpg?v=1" alt="黄春3">-->
-
-    <!-- 图片区域 -->
+  <!--在图片URL后添加随机参数 如时间戳?v=1 以绕过缓存-->
+  <!-- 图片区域 -->
   <div class="gallery">
-    <img src="images/hc1.jpg" alt="黄春1">
-    <img src="images/hc2.jpg" alt="黄春2">
-    <img src="images/hc3.jpg" alt="黄春3">
+    <!-- 修改：为图片添加data-src属性 -->
+    <div class="photo-item">
+      <img src="images/hc1.jpg" alt="黄春1" data-src="images/hc1.jpg">
+      <input type="checkbox" class="photo-checkbox">
+    </div>
+    <div class="photo-item">
+      <img src="images/hc2.jpg" alt="黄春2" data-src="images/hc2.jpg">
+      <input type="checkbox" class="photo-checkbox">
+    </div>
+    <div class="photo-item">
+      <img src="images/hc3.jpg" alt="黄春3" data-src="images/hc3.jpg">
+      <input type="checkbox" class="photo-checkbox">
+    </div>
   </div>
 
-    <!-- 下载按钮 -->
-  <button id="download-btn">allin春</button>
+  <!-- 按钮容器 -->
+  <div class="button-container">
+    <button id="download-all-btn" class="download-btn">all&nbsp;in春</button>
+    <button id="download-selected-btn" class="download-btn">下载选中图片</button>
+  </div>
+
 
   <!-- 返回按钮 -->
   <a href="index.html" class="back-button"> 안녕!<br>₍^.ᓀ - ᓂ ^₎</a> <!-- br控制换行-->
@@ -94,20 +115,21 @@
   <!-- 引入JSZip库 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
-    document.getElementById('download-btn').addEventListener('click', async function() {
+    document.getElementById('download-all-btn').addEventListener('click', async function() {
       const images = document.querySelectorAll('.gallery img'); // 获取所有图片
       const zip = new JSZip(); // 创建ZIP实例
 
       // 遍历所有图片
       const promises = Array.from(images).map(async (img, index) => {
         try {
-          const imgUrl = img.src; // 获取图片URL
+          // 改用data-src获取原始路径
+          const imgUrl = img.dataset.src;
+          const filename = imgUrl.split('/').pop();
           const response = await fetch(imgUrl); // 获取图片数据
           const blob = await response.blob(); // 转换为Blob对象
-          const filename = `photo_${index + 1}.jpg`; // 生成文件名
           zip.file(filename, blob); // 将图片添加到ZIP中
         } catch (error) {
-          console.error(`图片 ${img.src} 下载失败:`, error);
+          console.error(`图片下载失败: ${imgUrl}`, error);
         }
       });
 
@@ -121,6 +143,40 @@
         link.download = '春.zip'; // 设置下载文件名
         link.click(); // 触发下载
         URL.revokeObjectURL(link.href); // 释放内存
+      });
+    });
+
+    // 下载选中图片
+    document.getElementById('download-selected-btn').addEventListener('click', async function() {
+      const selectedPhotos = document.querySelectorAll('.photo-checkbox:checked');
+
+      if (selectedPhotos.length === 0) {
+        alert('请选择至少一只黄春下载');
+        return;
+      }
+
+      const zip = new JSZip();
+
+      const promises = Array.from(selectedPhotos).map(async (checkbox) => {
+        try {
+          const imgUrl = checkbox.getAttribute('data-src');
+          const filename = imgUrl.split('/').pop().split('?')[0]; // 提取文件名
+          const response = await fetch(imgUrl);
+          const blob = await response.blob();
+          zip.file(filename, blob);
+        } catch (error) {
+          console.error(`图片下载失败: ${imgUrl}`, error);
+        }
+      });
+
+      await Promise.all(promises);
+
+      zip.generateAsync({ type: 'blob' }).then(content => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(content);
+        link.download = 'selected_photos.zip';
+        link.click();
+        URL.revokeObjectURL(link.href);
       });
     });
   </script>
