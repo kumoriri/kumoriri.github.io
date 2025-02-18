@@ -49,7 +49,7 @@
       margin: 20px auto; /* 居中显示 */
       padding: 10px; /* 内边距 */
       text-align: center; /* 文字居中 */
-      background-color: #28a745; /* 背景颜色 */
+      background-color: #ffaf42; /* 背景颜色 */
       color: white; /* 文字颜色 */
       text-decoration: none; /* 去掉下划线 */
       border-radius: 5px; /* 圆角 */
@@ -58,13 +58,15 @@
 
     /* 鼠标悬停时下载按钮样式 */
     #download-btn:hover {
-      background-color: #218838; /* 背景颜色变深 */
+      background-color: #f7a12c; /* 背景颜色变深 */
     }
 
     /* 设置复选框样式 */
     .photo-checkbox {
       display: block; /* 让复选框独占一行 */
       margin: 5px auto; /* 居中显示 */
+
+
 
   </style>
 </head>
@@ -78,48 +80,47 @@
 
     <!-- 图片区域 -->
   <div class="gallery">
-    <div class="photo-item">
-      <img src="images/hc1.jpg?v=1" alt="黄春1">
-      <input type="checkbox" class="photo-checkbox" data-src="images/hc1.jpg">
-    </div>
-    <div class="photo-item">
-      <img src="images/hc2.jpg?v=1" alt="黄春2">
-      <input type="checkbox" class="photo-checkbox" data-src="images/hc2.jpg">
-    </div>
-    <div class="photo-item">
-      <img src="images/hc3.jpg?v=1" alt="黄春3">
-      <input type="checkbox" class="photo-checkbox" data-src="images/hc3.jpg">
-    </div>
+    <img src="images/hc1.jpg?v=1" alt="黄春1">
+    <img src="images/hc2.jpg?v=1" alt="黄春2">
+    <img src="images/hc3.jpg?v=1" alt="黄春3">
   </div>
 
     <!-- 下载按钮 -->
-  <button id="download-btn">Download</button>
+  <button id="download-btn">下载春</button>
 
   <!-- 返回按钮 -->
   <a href="index.html" class="back-button"> 안녕!<br>₍^.ᓀ - ᓂ ^₎</a> <!-- br控制换行-->
 
-  <!-- Script -->
+  <!-- 引入JSZip库 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
-    // JavaScript 实现下载功能
-    document.getElementById('download-btn').addEventListener('click', function() {
-      const selectedPhotos = document.querySelectorAll('.photo-checkbox:checked');
+    document.getElementById('download-btn').addEventListener('click', async function() {
+      const images = document.querySelectorAll('.gallery img'); // 获取所有图片
+      const zip = new JSZip(); // 创建ZIP实例
 
-      if (selectedPhotos.length === 0) {
-        alert('请选择至少一张照片下载');
-        return;
-      }
+      // 遍历所有图片
+      const promises = Array.from(images).map(async (img, index) => {
+        try {
+          const imgUrl = img.src; // 获取图片URL
+          const response = await fetch(imgUrl); // 获取图片数据
+          const blob = await response.blob(); // 转换为Blob对象
+          const filename = `photo_${index + 1}.jpg`; // 生成文件名
+          zip.file(filename, blob); // 将图片添加到ZIP中
+        } catch (error) {
+          console.error(`图片 ${img.src} 下载失败:`, error);
+        }
+      });
 
-      selectedPhotos.forEach(checkbox => {
-        const imgUrl = checkbox.getAttribute('data-src');
-        const imgName = imgUrl.split('/').pop(); // 从URL中提取文件名
+      // 等待所有图片处理完成
+      await Promise.all(promises);
 
-        // 创建一个隐藏的<a>标签用于下载
+      // 生成ZIP文件并提供下载
+      zip.generateAsync({ type: 'blob' }).then(content => {
         const link = document.createElement('a');
-        link.href = imgUrl;
-        link.download = imgName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
+        link.href = URL.createObjectURL(content);
+        link.download = 'photos.zip'; // 设置下载文件名
+        link.click(); // 触发下载
+        URL.revokeObjectURL(link.href); // 释放内存
       });
     });
   </script>
