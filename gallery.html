@@ -80,9 +80,9 @@
 
     <!-- 图片区域 -->
   <div class="gallery">
-    <img src="images/hc1.jpg?v=1" alt="黄春1">
-    <img src="images/hc2.jpg?v=1" alt="黄春2">
-    <img src="images/hc3.jpg?v=1" alt="黄春3">
+    <img src="images/hc1.jpg" alt="黄春1">
+    <img src="images/hc2.jpg" alt="黄春2">
+    <img src="images/hc3.jpg" alt="黄春3">
   </div>
 
     <!-- 下载按钮 -->
@@ -104,7 +104,6 @@
           const imgUrl = img.src; // 获取图片URL
           const response = await fetch(imgUrl); // 获取图片数据
           const blob = await response.blob(); // 转换为Blob对象
-          const filename = `photo_${index + 1}.jpg`; // 生成文件名
           zip.file(filename, blob); // 将图片添加到ZIP中
         } catch (error) {
           console.error(`图片 ${img.src} 下载失败:`, error);
@@ -118,7 +117,7 @@
       zip.generateAsync({ type: 'blob' }).then(content => {
         const link = document.createElement('a');
         link.href = URL.createObjectURL(content);
-        link.download = 'photos.zip'; // 设置下载文件名
+        link.download = '春.zip'; // 设置下载文件名
         link.click(); // 触发下载
         URL.revokeObjectURL(link.href); // 释放内存
       });
