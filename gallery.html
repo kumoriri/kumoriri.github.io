@@ -23,15 +23,19 @@
     .button-container {
       display: flex;
       justify-content: center;
-      gap: 5px;
+      gap: 20px;
       margin: 20px auto;
+      width: fit-content; /* 容器宽度适应内容 问题出现在这里 */
       flex-wrap: wrap; /* 添加响应式换行 */
     }
+
+
+
 
     /* 设置下载按钮样式 */
     .download-btn {
       display: block; /* 让按钮独占一行 */
-      width: 200px; /* 按钮宽度 */
+      width: 150px; /* 按钮宽度 */
       max-width: 100%; 
       margin: 20px auto; /* 居中显示 */
       padding: 10px; /* 内边距 */
@@ -179,6 +183,8 @@
         URL.revokeObjectURL(link.href);
       });
     });
+
+
   </script>
 </body>
 </html>
