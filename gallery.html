@@ -176,8 +176,10 @@
       // 遍历选中的照片 
       selectedPhotos.forEach(async (checkbox) => {
         try {
-          const imgUrl = checkbox.getAttribute('data-src');
-          const filename = imgUrl.split('/').pop().split('?')[0]; // 提取文件名
+          // 从复选框的父元素中获取图片的 data-src
+          const img = checkbox.closest('.photo-item').querySelector('img');
+          const imgUrl = img.dataset.src;
+          const filename = imgUrl.split('/').pop();
           const response = await fetch(imgUrl);
           const blob = await response.blob();
 
