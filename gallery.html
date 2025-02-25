@@ -120,7 +120,7 @@
   <script>
     // 修改：动态生成图片结构
     const gallery = document.getElementById('gallery');
-    const imageCount = 10; // 假设有 10 张图片，可以根据实际情况调整
+    const imageCount = 11; // 假设有 10 张图片，可以根据实际情况调整
 
     for (let i = 1; i <= imageCount; i++) {
       const div = document.createElement('div');
@@ -181,8 +181,9 @@
         return;
       }
 
-      // 遍历选中的照片 
-      selectedPhotos.forEach(async (checkbox) => {
+      // 遍历选中的照片，并添加延迟
+      for (let i = 0; i < selectedPhotos.length; i++) {
+        const checkbox = selectedPhotos[i];
         try {
           // 从复选框的父元素中获取图片的 data-src
           const img = checkbox.closest('.photo-item').querySelector('img');
@@ -199,10 +200,12 @@
 
           // 释放URL对象
           URL.revokeObjectURL(link.href);
+          // 添加延迟，确保每张图片下载完成后再下载下一张
+          await new Promise(resolve => setTimeout(resolve, 100)); // 100ms 延迟
         } catch (error) {
           console.error(`黄春下载失败: ${imgUrl}`, error);
         }
-      });
+      };
     });
 
 
