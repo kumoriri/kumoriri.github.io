@@ -181,25 +181,31 @@
         return;
       }
 
-      // 遍历选中的照片 
-      selectedPhotos.forEach(async (checkbox) => {
+    // 遍历选中的照片，并添加延迟
+      for (let i = 0; i < selectedPhotos.length; i++) {
+        const checkbox = selectedPhotos[i];
         try {
           // 从复选框的父元素中获取图片的 data-src
           const img = checkbox.closest('.photo-item').querySelector('img');
           const imgUrl = img.dataset.src;
           const filename = imgUrl.split('/').pop();
+          const response = await fetch(imgUrl);
+          const blob = await response.blob();
 
           // 创建下载链接
           const link = document.createElement('a');
-          link.href = imgUrl; // 直接使用图片的 URL
+          link.href = URL.createObjectURL(blob);
           link.download = filename; // 使用提取的文件名作为下载文件名
-          document.body.appendChild(link); // 将链接添加到 DOM 中
-          link.click(); // 触发下载
-          document.body.removeChild(link); // 下载完成后移除链接
+          link.click();
+
+          // 释放URL对象
+          URL.revokeObjectURL(link.href);
+          // 添加延迟，确保每张图片下载完成后再下载下一张
+          await new Promise(resolve => setTimeout(resolve, 100)); // 100ms 延迟
         } catch (error) {
           console.error(`黄春下载失败: ${imgUrl}`, error);
         }
-      });
+      };
     });
 
 
