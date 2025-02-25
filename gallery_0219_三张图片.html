@@ -102,8 +102,23 @@
 <body>
   <h1>안녕! 난 황춘 이아!</h1>
 
+  <!--在图片URL后添加随机参数 如时间戳?v=1 以绕过缓存-->
   <!-- 图片区域 -->
-  <div class="gallery" id="gallery"></div> <!-- 修改：添加 id="gallery" 以便动态插入图片 -->
+  <div class="gallery">
+    <!-- 修改：为图片添加data-src属性 -->
+    <div class="photo-item">
+      <img src="images/hc1.jpg" alt="黄春1" data-src="images/hc1.jpg">
+      <input type="checkbox" class="photo-checkbox">
+    </div>
+    <div class="photo-item">
+      <img src="images/hc2.jpg" alt="黄春2" data-src="images/hc2.jpg">
+      <input type="checkbox" class="photo-checkbox">
+    </div>
+    <div class="photo-item">
+      <img src="images/hc3.jpg" alt="黄春3" data-src="images/hc3.jpg">
+      <input type="checkbox" class="photo-checkbox">
+    </div>
+  </div>
 
   <!-- 按钮容器 -->
   <div class="button-container">
@@ -118,29 +133,6 @@
   <!-- 引入JSZip库 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script>
-    // 修改：动态生成图片结构
-    const gallery = document.getElementById('gallery');
-    const imageCount = 10; // 假设有 10 张图片，可以根据实际情况调整
-
-    for (let i = 1; i <= imageCount; i++) {
-      const div = document.createElement('div');
-      div.className = 'photo-item';
-
-      const img = document.createElement('img');
-      img.src = `images/hc${i}.jpg`; // 动态生成图片路径
-      img.alt = `黄春${i}`; // 动态生成 alt 属性
-      img.dataset.src = `images/hc${i}.jpg`;
-
-      const checkbox = document.createElement('input');
-      checkbox.type = 'checkbox';
-      checkbox.className = 'photo-checkbox';
-
-      div.appendChild(img);
-      div.appendChild(checkbox);
-      gallery.appendChild(div);
-    }
-
-    // 下载所有图片
     document.getElementById('download-all-btn').addEventListener('click', async function() {
       const images = document.querySelectorAll('.gallery img'); // 获取所有图片
       const zip = new JSZip(); // 创建ZIP实例
