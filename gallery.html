@@ -196,7 +196,9 @@
           const link = document.createElement('a');
           link.href = URL.createObjectURL(blob);
           link.download = filename; // 使用提取的文件名作为下载文件名
-          link.click();
+          document.body.appendChild(link); // 将链接添加到 DOM 中
+          link.click(); // 触发下载
+          document.body.removeChild(link); // 下载完成后移除链接
 
           // 释放URL对象
           URL.revokeObjectURL(link.href);
