@@ -196,12 +196,14 @@
           const link = document.createElement('a');
           link.href = URL.createObjectURL(blob);
           link.download = filename; // 使用提取的文件名作为下载文件名
-          link.click();
-
+          document.body.appendChild(link); // 将链接添加到 DOM 中
+          link.click(); // 触发下载
+          document.body.removeChild(link); // 下载完成后移除链接
           // 释放URL对象
           URL.revokeObjectURL(link.href);
+          
           // 添加延迟，确保每张图片下载完成后再下载下一张
-          await new Promise(resolve => setTimeout(resolve, 500)); // 100ms 延迟
+          await new Promise(resolve => setTimeout(resolve, 100)); // 100ms 延迟
         } catch (error) {
           console.error(`黄春下载失败: ${imgUrl}`, error);
         }
