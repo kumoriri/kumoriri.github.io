@@ -43,6 +43,12 @@
       display: block; /* 让图片独占一行 */
       margin: 10px auto; /* 居中显示，并添加一些间距 */
     }
+
+    footer {
+    text-align: center; /* 居中对齐 */
+    color: #777; /* 设置字体颜色为橘色 */
+    margin-top: 20px; /* 添加一些顶部间距 */
+    }
   </style>
 </head>
 <body>
@@ -51,5 +57,12 @@
   <a href="gallery.html">
     <img src="images/hc.jpg" alt="黄春">
   </a>
+    <!-- Include Footer -->
+  <footer>
+      <p>&copy; <span id="year"></span> HC Studio</p>
+      <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+      </script>
+  </footer>
 </body>
 </html>

@@ -112,6 +112,13 @@
       margin: 5px auto; /* 居中显示 */
     }
 
+    footer {
+    text-align: center; /* 居中对齐 */
+    color: #777; /* 设置字体颜色为橘色 */
+    margin-top: 20px; /* 添加一些顶部间距 */
+    font-family: 'Arial', sans-serif; /* 设置字体 */
+    }
+
 
 
   </style>
@@ -229,5 +236,11 @@
 
 
   </script>
+  <footer>
+      <p>&copy; <span id="year"></span> HC Studio</p>
+      <script>
+      document.getElementById("year").textContent = new Date().getFullYear();
+      </script>
+  </footer>
 </body>
 </html>
