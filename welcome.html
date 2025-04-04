@@ -19,6 +19,32 @@
             overflow: hidden;
         }
         
+        /* 移动端适配新增部分 */
+        @media (max-width: 768px) {
+            .welcome-text, .kaomoji {
+                font-size: 1.5rem; /* 缩小文字大小 */
+                white-space: nowrap; /* 防止换行 */
+            }
+
+            .options {
+                flex-direction: column; /* 垂直排列选项 */
+                gap: 15px;
+                margin-top: 30px;
+                width: 80%; /* 控制宽度 */
+            }
+
+            .option-box {
+                padding: 20px 0; /* 调整内边距 */
+                width: 100%; /* 全宽按钮 */
+                font-size: 1rem;
+            }
+
+            /* 触控反馈优化 */
+            .option-box:active {
+                transform: scale(0.95);
+                background-color: rgba(255, 255, 255, 0.6) !important;
+            }
+        }
 
         .welcome-text, .kaomoji {
             opacity: 0;          /* 初始隐藏元素（必须保留） */
