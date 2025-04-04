@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欢迎页面</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #282a36;
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .welcome-text {
+            font-size: 2rem;
+            font-weight: bold;
+            opacity: 0;
+            position: absolute;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .kaomoji {
+            font-size: 2rem;
+            opacity: 0;
+            position: absolute;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .options {
+            display: none;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .option-box {
+            background-color: rgba(255, 255, 255, 0.202);
+            /* border: 1px solid rgba(255, 255, 255, 0.3); */
+            border-radius: 10px;
+            padding: 30px 40px;
+            width: 120px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #b897f2;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none; /* 移除链接下划线 */
+            display: block; /* 使链接填充整个框 */
+        }
+        
+        .option-box:hover {
+            background-color: rgba(255, 255, 255, 0.4);
+            transform: translateY(-5px);
+        }
+        .option-box:active {
+            transform: translateY(0) scale(0.95); /*按压效果*/
+}
+    </style>
+</head>
+<body>
+    <div class="welcome-text">Welcome</div>
+    <div class="kaomoji">(.ᓀ · ᓂ )</div>
+    <div class="options">
+        <a href="index.html" class="option-box">黄春</a>
+        <a href="https://my-digital-garden-steel-three.vercel.app/" class="option-box" target="_blank">d.garden</a>
+        <a href="https://share.note.sx/6mketb4t#CgMXgZpG9na9EFLqPH5paKDoFdK6wMQpb5vcIzknfLg" class="option-box" target="_blank">obsidian</a>
+    </div>
+
+    <script>
+        // 动画序列控制
+        document.addEventListener('DOMContentLoaded', () => {
+            const welcomeText = document.querySelector('.welcome-text');
+            const kaomoji = document.querySelector('.kaomoji');
+            const options = document.querySelector('.options');
+            
+            // 显示Welcome文字
+            setTimeout(() => {
+                welcomeText.style.opacity = '1';
+            }, 500);
+            
+            // 隐藏Welcome，显示颜文字
+            setTimeout(() => {
+                welcomeText.style.opacity = '0';
+                
+                setTimeout(() => {
+                    kaomoji.style.opacity = '1';
+                }, 1000);
+            }, 2500);
+            
+            // 隐藏颜文字，显示选项
+            setTimeout(() => {
+                kaomoji.style.opacity = '0';
+                
+                setTimeout(() => {
+                    options.style.display = 'flex';
+                    
+                    // 为选项添加动画
+                    const boxes = document.querySelectorAll('.option-box');
+                    boxes.forEach((box, index) => {
+                        box.style.opacity = '0';
+                        box.style.transform = 'translateY(20px)';
+                        
+                        setTimeout(() => {
+                            box.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                            box.style.opacity = '1';
+                            box.style.transform = 'translateY(0)';
+                        }, index * 200);
+                    });
+                }, 1000);
+            }, 4500);
+        });
+    </script>
+</body>
+</html>
