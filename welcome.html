@@ -93,16 +93,16 @@
                 setTimeout(() => { // 创建第二个定时器
                     welcomeText.style.opacity = '0'; // 隐藏Welcome文字（开始淡出）
 
-                    // 嵌套定时器：在Welcome消失后1000ms显示颜文字
+                    // 嵌套定时器：在Welcome消失后1500ms显示颜文字
                     animationTimeouts.push(
                         setTimeout(() => { // 创建嵌套定时器
                             kaomoji.style.opacity = '1'; // 显示颜文字
-                        }, 1000) // 在Welcome开始隐藏后延迟1000ms执行
+                        }, 1500) // 在Welcome开始隐藏后延迟1000ms执行
                     );
                 }, 2500) // 页面加载后延迟2500ms执行
             );
 
-            // 第3个定时器：5000ms后开始隐藏颜文字
+            // 第3个定时器：6000ms后开始隐藏颜文字
             animationTimeouts.push(
                 setTimeout(() => { // 创建第三个定时器
                     kaomoji.style.opacity = '0'; // 隐藏颜文字（开始淡出）
@@ -111,9 +111,17 @@
                     animationTimeouts.push(
                         setTimeout(showOptions, 1500) // 调用showOptions函数
                     );
-                }, 5000) // 页面加载后延迟4500ms执行
+                }, 6000) // 页面加载后延迟6000ms执行
             );
         }
+
+// Welcome和颜文字的淡入/淡出动画时间统一为1.5秒
+
+// Welcome显示总时长：2500 - 500 = 2000ms
+
+// 颜文字显示总时长：6000 - 2500 - 1500 = 2000ms
+
+// 选项出现延迟与最后一个元素淡出动画同步
     
             // 显示选项的函数
             function showOptions() {
