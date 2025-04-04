@@ -19,19 +19,13 @@
             overflow: hidden;
         }
         
-        .welcome-text {
-            font-size: 2rem;
-            font-weight: bold;
-            opacity: 0;
-            position: absolute;
-            transition: opacity 1.5s ease-in-out;
-        }
-        
-        .kaomoji {
-            font-size: 2rem;
-            opacity: 0;
-            position: absolute;
-            transition: opacity 1.5s ease-in-out;
+
+        .welcome-text, .kaomoji {
+            opacity: 0;          /* 初始隐藏元素（必须保留） */
+            position: absolute;  /* 防止元素占位导致布局跳动（必须保留） */
+            font-size: 2rem;     /* 文字大小（按需保留） */
+            font-weight: bold;   /* 文字加粗（按需保留） */
+            transition: opacity 1.5s ease-in-out
         }
         
         .options {
@@ -83,42 +77,88 @@
             const welcomeText = document.querySelector('.welcome-text');
             const kaomoji = document.querySelector('.kaomoji');
             const options = document.querySelector('.options');
-            
-            // 显示Welcome文字
-            setTimeout(() => {
-                welcomeText.style.opacity = '1';
-            }, 500);
-            
-            // 隐藏Welcome，显示颜文字
-            setTimeout(() => {
-                welcomeText.style.opacity = '0';
+            let animationTimeouts = []; // 存储所有动画定时器
+    
+            // 初始化动画序列
+            function initAnimation() {
+            // 第1个定时器：500ms后显示Welcome文字
+            animationTimeouts.push(
+                setTimeout(() => { // 创建第一个定时器
+                    welcomeText.style.opacity = '1'; // 将Welcome文字透明度设为1（显示）
+                }, 500) // 延迟500ms执行
+            );
+
+            // 第2个定时器：2500ms后开始隐藏Welcome
+            animationTimeouts.push(
+                setTimeout(() => { // 创建第二个定时器
+                    welcomeText.style.opacity = '0'; // 隐藏Welcome文字（开始淡出）
+
+                    // 嵌套定时器：在Welcome消失后1000ms显示颜文字
+                    animationTimeouts.push(
+                        setTimeout(() => { // 创建嵌套定时器
+                            kaomoji.style.opacity = '1'; // 显示颜文字
+                        }, 1000) // 在Welcome开始隐藏后延迟1000ms执行
+                    );
+                }, 2500) // 页面加载后延迟2500ms执行
+            );
+
+            // 第3个定时器：5000ms后开始隐藏颜文字
+            animationTimeouts.push(
+                setTimeout(() => { // 创建第三个定时器
+                    kaomoji.style.opacity = '0'; // 隐藏颜文字（开始淡出）
+
+                    // 嵌套定时器：在颜文字消失后1500ms显示选项
+                    animationTimeouts.push(
+                        setTimeout(showOptions, 1500) // 调用showOptions函数
+                    );
+                }, 5000) // 页面加载后延迟4500ms执行
+            );
+        }
+    
+            // 显示选项的函数
+            function showOptions() {
+                options.style.display = 'flex';
+                const boxes = document.querySelectorAll('.option-box');
+                boxes.forEach((box, index) => {
+                    box.style.opacity = '0';
+                    box.style.transform = 'translateY(20px)';
+                    animationTimeouts.push(setTimeout(() => {
+                        box.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                        box.style.opacity = '1';
+                        box.style.transform = 'translateY(0)';
+                    }, index * 200));
+                });
+            }
+    
+            // 点击跳过逻辑
+            function skipAnimation() {
+                // 清除所有预定动画
+                animationTimeouts.forEach(clearTimeout);
                 
-                setTimeout(() => {
-                    kaomoji.style.opacity = '1';
-                }, 1000);
-            }, 2500);
-            
-            // 隐藏颜文字，显示选项
-            setTimeout(() => {
+                // 立即隐藏所有动画元素
+                // 立即强制隐藏所有动画元素（取消过渡效果）
+                welcomeText.style.transition = 'none'; // 新增：取消过渡效果
+                kaomoji.style.transition = 'none';     // 新增：取消过渡效果
+                welcomeText.style.opacity = '0';
                 kaomoji.style.opacity = '0';
                 
-                setTimeout(() => {
-                    options.style.display = 'flex';
-                    
-                    // 为选项添加动画
-                    const boxes = document.querySelectorAll('.option-box');
-                    boxes.forEach((box, index) => {
-                        box.style.opacity = '0';
-                        box.style.transform = 'translateY(20px)';
-                        
-                        setTimeout(() => {
-                            box.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                            box.style.opacity = '1';
-                            box.style.transform = 'translateY(0)';
-                        }, index * 200);
-                    });
-                }, 1000);
-            }, 4500);
+                // 直接显示选项
+                showOptions();
+                
+                // 立即触发选项动画（移除延迟）
+                const boxes = document.querySelectorAll('.option-box');
+                boxes.forEach(box => {
+                    box.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    box.style.opacity = '1';
+                    box.style.transform = 'translateY(0)';
+                });
+            }
+    
+            // 初始化动画
+            initAnimation();
+            
+            // 添加点击事件监听
+            document.addEventListener('click', skipAnimation);
         });
     </script>
 </body>
