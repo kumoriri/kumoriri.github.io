@@ -1,44 +1,28 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>欢迎页面</title>
-
     <!-- 字体预加载 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" 
           rel="stylesheet">
-
     <style>
         :root {
             --exo-font: 'Exo 2', system-ui, -apple-system, sans-serif;
         }
-
-        footer {
-        position: fixed;
-        bottom: 20px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        color: #777;
-        opacity: 0; /* 初始隐藏 */
-        transition: opacity 1s ease-in-out;
-        pointer-events: none; /* 防止点击干扰 */
+        
+        html, body {
+        overflow: hidden; /* 禁用所有滚动 */
+        width: 100%;
+        height: 100%;
+        position: fixed; /* 固定视口 */
+        touch-action: none; /* 禁用触摸滚动 */
         }
 
-        /* 显示时的状态 */
-        footer.show {
-        opacity: 1;
-        pointer-events: auto;
-        }
-
-        footer a {
-        text-decoration: none; /* 去除下划线 */
-        color: inherit; /* 继承父元素的颜色 */
-        }
+        
 
         body {
             margin: 0;
@@ -53,6 +37,11 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
+            padding: 
+            env(safe-area-inset-top)    /* 顶部安全距离 */
+            env(safe-area-inset-right)  /* 右侧安全距离 */
+            env(safe-area-inset-bottom) /* 底部安全距离 */
+            env(safe-area-inset-left);  /* 左侧安全距离 */
         }
 
         .welcome-text, .kaomoji {
@@ -101,7 +90,30 @@
         }
         .option-box:active {
             transform: translateY(0) scale(0.95); /*按压效果*/
-}
+        }
+
+        footer {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        color: #777;
+        opacity: 0; /* 初始隐藏 */
+        transition: opacity 1s ease-in-out;
+        pointer-events: none; /* 防止点击干扰 */
+        }
+
+        /* 显示时的状态 */
+        footer.show {
+        opacity: 1;
+        pointer-events: auto;
+        }
+
+        footer a {
+        text-decoration: none; /* 去除下划线 */
+        color: inherit; /* 继承父元素的颜色 */
+        }
 
     /* 移动端适配 */
     @media (max-width: 768px) and (orientation: portrait) {
@@ -153,6 +165,14 @@
     </footer>
 
     <script>
+
+        // 锁定视口滚动
+        function lockScroll() {
+        window.addEventListener('scroll', (e) => {
+          e.preventDefault();
+          window.scrollTo(0, 0);
+         }, { passive: false });
+        }
 
         // 添加字体加载检测
         document.fonts.ready.then(() => {
