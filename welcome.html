@@ -13,16 +13,6 @@
         :root {
             --exo-font: 'Exo 2', system-ui, -apple-system, sans-serif;
         }
-        
-        html, body {
-        overflow: hidden; /* 禁用所有滚动 */
-        width: 100%;
-        height: 100%;
-        position: fixed; /* 固定视口 */
-        touch-action: none; /* 禁用触摸滚动 */
-        }
-
-        
 
         body {
             margin: 0;
@@ -31,27 +21,26 @@
             color: white;
             font-family: var(--exo-font); /* 修改默认字体 */
             /* font-family: Arial, sans-serif; */
-            height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            padding: 
-            env(safe-area-inset-top)    /* 顶部安全距离 */
-            env(safe-area-inset-right)  /* 右侧安全距离 */
-            env(safe-area-inset-bottom) /* 底部安全距离 */
-            env(safe-area-inset-left);  /* 左侧安全距离 */
+            overflow: hidden; /* 禁用所有滚动 */
+            width: 100%;
+            height: 100%;
+            position: fixed; /* 固定视口 */
         }
 
         .welcome-text, .kaomoji {
             opacity: 0;          /* 初始隐藏元素（必须保留） */
             position: absolute;  /* 防止元素占位导致布局跳动（必须保留） */
+            margin: 0; /* 添加垂直间距 */
             font-size: 2rem;     /* 文字大小（按需保留） */
             font-weight: 600;   /* 使用Exo 2的semibold字重 */
             font-family: var(--exo-font); /* 显式声明字体 */
             transition: opacity 1.5s ease-in-out
         }
+
         
         .options {
             display: none; /* 不然会过早出现 */
@@ -59,7 +48,7 @@
             justify-content: center;
             align-items: center;
             gap: 35px;
-            margin-top: 50px;
+            margin: 0; /* 垂直居中关键 */
             padding: 0 20px; /* 添加安全边距 */
         }
         
@@ -93,16 +82,19 @@
         }
 
         footer {
-        position: fixed;
-        bottom: 20px;
+        bottom: calc(20px + env(safe-area-inset-bottom)); /* 动态计算安全距离 */
+        position: fixed; /* 固定定位 */
+        margin-top: 0; /* 推到最底部 不知道为什么这个会影响复选框*/
         left: 0;
         right: 0;
+        padding: 8px 20px;
         text-align: center;
         color: #777;
         opacity: 0; /* 初始隐藏 */
         transition: opacity 1s ease-in-out;
         pointer-events: none; /* 防止点击干扰 */
         }
+
 
         /* 显示时的状态 */
         footer.show {
@@ -115,8 +107,8 @@
         color: inherit; /* 继承父元素的颜色 */
         }
 
-    /* 移动端适配 */
-    @media (max-width: 768px) and (orientation: portrait) {
+        /* 移动端适配 */
+        @media (max-width: 768px) and (orientation: portrait) {
         .options {
             flex-direction: column; /* 垂直排列 */
             gap: 20px;
@@ -131,20 +123,20 @@
         }
     }
     
-    /* 新增横屏适配 */
-    @media (max-width: 768px) and (orientation: landscape) { /* 横屏模式 */
-    .options {
+        /* 新增横屏适配 */
+        @media (max-width: 768px) and (orientation: landscape) { /* 横屏模式 */
+        .options {
         flex-direction: row; /* 保持横向排列 */
         gap: 15px;
         padding: 0 10px;
         margin-top: 30px;
-    }
-    .option-box {
+        }
+        .option-box {
         width: auto;
         min-width: 100px;
         padding: 15px 20px;
         font-size: clamp(0.7rem, 2.5vw, 0.9rem);
-    }
+        }
 }
 
 
