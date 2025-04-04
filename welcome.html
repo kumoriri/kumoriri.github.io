@@ -18,33 +18,56 @@
             align-items: center;
             overflow: hidden;
         }
-        
-        /* 移动端适配新增部分 */
-        @media (max-width: 768px) {
-            .welcome-text, .kaomoji {
-                font-size: 1.5rem; /* 缩小文字大小 */
-                white-space: nowrap; /* 防止换行 */
-            }
+    
+        /* 设置基础字体大小，方便使用 rem 单位 */
+    html {
+        font-size: 16px; /* 默认字体大小 */
+    }
 
-            .options {
-                flex-direction: column; /* 垂直排列选项 */
-                gap: 15px;
-                margin-top: 30px;
-                width: 80%; /* 控制宽度 */
-            }
-
-            .option-box {
-                padding: 20px 0; /* 调整内边距 */
-                width: 100%; /* 全宽按钮 */
-                font-size: 1rem;
-            }
-
-            /* 触控反馈优化 */
-            .option-box:active {
-                transform: scale(0.95);
-                background-color: rgba(255, 255, 255, 0.6) !important;
-            }
+    @media (max-width: 768px) {
+        html {
+            font-size: 14px; /* 移动端字体稍微缩小 */
         }
+
+        body {
+            padding: 10px; /* 增加内边距，避免内容贴边 */
+        }
+
+        .welcome-text, .kaomoji {
+            font-size: 1.2rem; /* 缩小文字大小 */
+        }
+
+        .options {
+            flex-direction: column; /* 垂直排列选项 */
+            gap: 10px; /* 减小选项间距 */
+            margin-top: 20px;
+            width: 90%; /* 减少宽度，适配小屏幕 */
+        }
+
+        .option-box {
+            padding: 15px 0; /* 调整内边距 */
+            font-size: 0.9rem; /* 缩小按钮文字大小 */
+        }
+    }
+
+    @media (max-width: 480px) {
+        html {
+            font-size: 12px; /* 更小屏幕进一步缩小字体 */
+        }
+
+        .welcome-text, .kaomoji {
+            font-size: 1rem; /* 再次缩小文字大小 */
+        }
+
+        .options {
+            gap: 8px; /* 减小选项间距 */
+        }
+
+        .option-box {
+            padding: 10px 0; /* 减少内边距 */
+            font-size: 0.8rem; /* 缩小按钮文字大小 */
+        }
+    }
 
         .welcome-text, .kaomoji {
             opacity: 0;          /* 初始隐藏元素（必须保留） */
