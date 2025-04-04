@@ -2,15 +2,27 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>欢迎页面</title>
+
+    <!-- 字体预加载 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap" 
+          rel="stylesheet">
+
     <style>
+        :root {
+            --exo-font: 'Exo 2', system-ui, -apple-system, sans-serif;
+        }
+
         body {
             margin: 0;
             padding: 0;
             background-color: #282a36;
             color: white;
-            font-family: Arial, sans-serif;
+            font-family: var(--exo-font); /* 修改默认字体 */
+            /* font-family: Arial, sans-serif; */
             height: 100vh;
             display: flex;
             flex-direction: column;
@@ -18,72 +30,24 @@
             align-items: center;
             overflow: hidden;
         }
-    
-        /* 设置基础字体大小，方便使用 rem 单位 */
-    html {
-        font-size: 16px; /* 默认字体大小 */
-    }
-
-    @media (max-width: 768px) {
-        html {
-            font-size: 14px; /* 移动端字体稍微缩小 */
-        }
-
-        body {
-            padding: 10px; /* 增加内边距，避免内容贴边 */
-        }
-
-        .welcome-text, .kaomoji {
-            font-size: 1.2rem; /* 缩小文字大小 */
-        }
-
-        .options {
-            flex-direction: column; /* 垂直排列选项 */
-            gap: 10px; /* 减小选项间距 */
-            margin-top: 20px;
-            width: 90%; /* 减少宽度，适配小屏幕 */
-        }
-
-        .option-box {
-            padding: 15px 0; /* 调整内边距 */
-            font-size: 0.9rem; /* 缩小按钮文字大小 */
-        }
-    }
-
-    @media (max-width: 480px) {
-        html {
-            font-size: 12px; /* 更小屏幕进一步缩小字体 */
-        }
-
-        .welcome-text, .kaomoji {
-            font-size: 1rem; /* 再次缩小文字大小 */
-        }
-
-        .options {
-            gap: 8px; /* 减小选项间距 */
-        }
-
-        .option-box {
-            padding: 10px 0; /* 减少内边距 */
-            font-size: 0.8rem; /* 缩小按钮文字大小 */
-        }
-    }
 
         .welcome-text, .kaomoji {
             opacity: 0;          /* 初始隐藏元素（必须保留） */
             position: absolute;  /* 防止元素占位导致布局跳动（必须保留） */
             font-size: 2rem;     /* 文字大小（按需保留） */
-            font-weight: bold;   /* 文字加粗（按需保留） */
+            font-weight: 600;   /* 使用Exo 2的semibold字重 */
+            font-family: var(--exo-font); /* 显式声明字体 */
             transition: opacity 1.5s ease-in-out
         }
         
         .options {
-            display: none;
+            display: none; /* 不然会过早出现 */
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            gap: 30px;
+            gap: 35px;
             margin-top: 50px;
+            padding: 0 20px; /* 添加安全边距 */
         }
         
         .option-box {
@@ -91,17 +55,57 @@
             /* border: 1px solid rgba(255, 255, 255, 0.3); */
             border-radius: 10px;
             padding: 30px 40px;
-            width: 120px;
+            min-width: max-content; /* 设置最小宽度 */
+            max-width: 200px; /* 限制最大宽度，避免过宽 */
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             color: #b897f2;
-            font-size: 1.2rem;
-            font-weight: bold;
+            font-size: clamp(0.9rem, 2vw, 1.2rem); /* 动态字体大小 */
+            font-weight: 600; /* 统一字重 */
             text-decoration: none; /* 移除链接下划线 */
             display: block; /* 使链接填充整个框 */
+            white-space: nowrap; /* 防止文字换行 */
+            font-family: var(--exo-font); /* 应用字体 */
+            overflow: hidden;
+            text-overflow: ellipsis; /* 文字过长时显示省略号 */
         }
-        
+    /* 移动端适配 */
+    @media (max-width: 768px) {
+        .options {
+            flex-direction: column; /* 垂直排列 */
+            gap: 20px;
+            width: auto; /* 取消固定宽度 */
+            padding: 0 15px;
+        }
+        .option-box {
+            width: 100%; /* 宽度充满容器 */
+            min-width: auto; /* 取消最小宽度限制 */
+            padding: 20px 25px;
+            font-size: clamp(0.8rem, 4vw, 1rem); /* 移动端字体范围 */
+        }
+    }
+
+    /* 小屏幕手机优化 */
+    @media (max-width: 480px) {
+        .option-box {
+            padding: 15px 20px;
+            font-size: clamp(0.7rem, 4.5vw, 0.9rem);
+        }
+    }
+
+    /* 横屏适配 */
+    @media (min-width: 769px) and (max-width: 1024px) and (orientation: landscape) {
+    .options {
+        gap: 15px;
+    }
+    .option-box {
+        padding: 20px 30px;
+        font-size: clamp(0.8rem, 2.5vw, 1.1rem);
+    }
+}
+
+
         .option-box:hover {
             background-color: rgba(255, 255, 255, 0.4);
             transform: translateY(-5px);
@@ -115,12 +119,18 @@
     <div class="welcome-text">Welcome</div>
     <div class="kaomoji">(.ᓀ · ᓂ )</div>
     <div class="options">
-        <a href="index.html" class="option-box">黄春</a>
-        <a href="https://my-digital-garden-steel-three.vercel.app/" class="option-box" target="_blank">d.garden</a>
-        <a href="https://share.note.sx/6mketb4t#CgMXgZpG9na9EFLqPH5paKDoFdK6wMQpb5vcIzknfLg" class="option-box" target="_blank">obsidian</a>
+        <a href="index.html" class="option-box">H.Choon</a>
+        <a href="https://my-digital-garden-steel-three.vercel.app/" class="option-box" target="_blank">D.garden</a>
+        <a href="https://share.note.sx/6mketb4t#CgMXgZpG9na9EFLqPH5paKDoFdK6wMQpb5vcIzknfLg" class="option-box" target="_blank">Obsidian</a>
     </div>
 
     <script>
+
+        // 添加字体加载检测
+        document.fonts.ready.then(() => {
+        document.documentElement.style.setProperty('--exo-font', '"Exo 2", system-ui, -apple-system, sans-serif');
+        });
+
         // 动画序列控制
         document.addEventListener('DOMContentLoaded', () => {
             const welcomeText = document.querySelector('.welcome-text');
