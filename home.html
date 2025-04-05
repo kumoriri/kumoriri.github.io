@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- 默认的favicon（适用于大多数浏览器） -->
+  <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+  
+  <!-- 针对Chrome和Firefox的PNG格式图标 -->
+  <link rel="icon" type="image/png" href="/favicon/favicon_256x256.png" sizes="256x256">
+  
+  <!-- 针对Safari的Apple Touch Icon（保存到主屏幕时使用） -->
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="   (.ᓀ · ᓂ )" />
+  
+  <!-- 针对Safari的SVG格式图标（现代浏览器支持） -->
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon_safari.svg">
+ 
+  <!-- 针对Safari的mask-icon（用于标签页图标） -->
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#000000">
+  
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+  
+  <!-- 传统shortcut icon -->
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hwang Choon の GitHub Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    h1 {
+      color: #0366d6;
+    }
+    
+    /* 响应式图片样式 */
+    img {
+      max-width: 100%; /* 图片最大宽度为屏幕宽度 */
+      height: auto; /* 高度自动调整，保持宽高比 */
+      display: block; /* 让图片独占一行 */
+      margin: 10px auto; /* 居中显示，并添加一些间距 */
+    }
+
+    footer {
+    text-align: center; /* 居中对齐 */
+    color: #777; /* 设置字体颜色为橘色 */
+    margin-top: 20px; /* 添加一些顶部间距 */
+    }
+
+    footer a {
+    text-decoration: none; /* 去除下划线 */
+    color: inherit; /* 继承父元素的颜色 */
+   }
+
+    /* 初始状态 */
+    .content {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease-out, transform 1s ease-out;
+    }
+    
+    /* 动画后状态 */
+    .loaded .content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+
+  </style>
+</head>
+<body>
+  <div class="content">
+    <h1>你好, 我是黄春呀!</h1>
+    <p>(.ᓀ ·̫ ᓂ ) ♥</p>
+    <a href="gallery.html">
+      <img src="images/hc.jpg" alt="黄春">
+    </a>
+    <!-- Include Footer -->
+    <footer>
+      <a href="welcome.html">&copy; <span id="year"></span> HC Studio</a>
+    </footer>
+  </div>
+  <script>
+    // 页面加载完成后添加loaded类触发动画
+    window.addEventListener('load', function() {
+      document.body.classList.add('loaded');
+      document.getElementById("year").textContent = new Date().getFullYear();
+    });
+  </script>
+</body>
+</html>
