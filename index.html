@@ -1,9 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
+  <!-- 默认的favicon（适用于大多数浏览器） -->
+  <link rel="icon" type="image/x-icon" href="/favicon/favicon_choon/f_choon.ico">
+  
+  <!-- 针对Chrome和Firefox的PNG格式图标 -->
+  <link rel="icon" type="image/png" href="/favicon/favicon_choon/f_choon_512x512.png" sizes="512x512">
+  
+  <!-- 针对Safari的Apple Touch Icon（保存到主屏幕时使用） -->
+  <link rel="apple-touch-icon" href="/favicon/favicon_choon/apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="welcome" />
+  
+  <!-- 针对Safari的SVG格式图标（现代浏览器支持） -->
+  <!-- <link rel="icon" type="image/svg+xml" href="/favicon/favicon_safari.svg"> -->
+ 
+  <!-- 针对Safari的mask-icon（用于标签页图标） -->
+  <link rel="mask-icon" href="/favicon/favicon_choon/f_choon_color.jpg" color="#000000">
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>欢迎页面</title>
+    <title>Welcome</title>
     <!-- 字体预加载 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,14 +169,14 @@
     <div class="welcome-text">Welcome</div>
     <div class="kaomoji">(.ᓀ · ᓂ )</div>
     <div class="options">
-        <a href="index.html" class="option-box">H.Choon</a>
+        <a href="home.html" class="option-box">H.Choon</a>
         <a href="https://my-digital-garden-steel-three.vercel.app/" class="option-box" target="_blank">D.garden</a>
         <a href="https://share.note.sx/6mketb4t#CgMXgZpG9na9EFLqPH5paKDoFdK6wMQpb5vcIzknfLg" class="option-box" target="_blank">Obsidian</a>
     </div>
 
     <!-- Include Footer -->
     <footer>
-        <a href="index.html">&copy; <span id="year"></span> HC Studio</a>
+        <a href="gallery.html">&copy; <span id="year"></span>HC Studio</a>
     </footer>
 
     <script>
