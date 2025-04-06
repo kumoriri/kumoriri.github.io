@@ -6,6 +6,15 @@
     </script>
 </footer>
 
+    <!-- 放在footer后 -->
+<script>
+    // 自动更新年份
+    (function() {
+      document.getElementById('year').textContent = new Date().getFullYear();
+    })();
+</script>
+
+
 <style>
 footer {
     text-align: center; /* 居中对齐 */

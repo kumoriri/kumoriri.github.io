@@ -234,14 +234,14 @@
         } catch (error) {
           console.error(`黄春下载失败: ${imgUrl}`, error);
         }
+
       };
     });
-
-
   </script>
-  <footer>
+    <footer>
       <a href="index.html">&copy; <span id="year"></span> HC Studio</a>
-      document.getElementById("year").textContent = new Date().getFullYear();
+      <script>
+          document.getElementById("year").textContent = new Date().getFullYear();
       </script>
   </footer>
 </body>

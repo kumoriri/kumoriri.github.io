@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- 引入字体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Ropa+Sans:ital@0;1&display=swap" rel="stylesheet">
+  <!-- 引入 Swiper 的样式和脚本文件 -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
   <!-- 默认的favicon（适用于大多数浏览器） -->
   <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
   
@@ -27,13 +35,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hwang Choon の Home Page</title>
   <style>
+
+
+    /* 基础重置 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    /* 顶部导航栏样式 */
+    .main-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0px 20px; /*上下距离flex-grow使用后就可以为0了 左右距离*/
+      background: rgba(255, 255, 255, 0.628);
+      box-shadow: 0px 1px 9px rgba(0, 0, 0, 0.2);
+      z-index: 1000; /*它会在大多数默认元素的上方显示*/
+    }
+
+    .logo img {
+      height: 40px;
+    }
+  
+    .main-nav ul {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+  
+    .main-nav a {
+      color: #333;
+      text-decoration: none;
+      font-size: 1rem;
+      white-space: nowrap;
+    }
+  
+    /* 主要内容区 */
+    main {
+      padding: 0px; /*全屏宽度*/
+      flex-grow: 1; /* 占据剩余空间 有这个就不需要margin-to了*/
+    }
+    
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 50px;
+      margin-top: 60px;
     }
+
     h1 {
-      color: #0366d6;
+      color: #0366d6; 
     }
     
     /* 响应式图片样式 */
@@ -44,17 +99,67 @@
       margin: 10px auto; /* 居中显示，并添加一些间距 */
     }
 
+    /* 页脚样式 */
     footer {
     text-align: center; /* 居中对齐 */
     color: #777; /* 设置字体颜色为橘色 */
     margin-top: 20px; /* 添加一些顶部间距 */
+    font-family: 'Ropa Sans', sans-serif;
+    font-weight: 400;
+    font-style: normal;
     }
 
     footer a {
     text-decoration: none; /* 去除下划线 */
     color: inherit; /* 继承父元素的颜色 */
-   }
+    }
 
+    .main-footer {
+      background: #f8f9fa;
+      padding: 2rem 20px;
+      margin-top: 3rem;
+    }
+
+    .footer-columns {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* 调整quick links上下间距 */
+    .footer-col.quick-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+    }
+
+    .footer-col.quick-links li {
+    margin: 0.3rem 0;
+    }
+
+    .social-icons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+  
+    .social-icons img {
+      width: 28px;
+      height: 28px;
+    }
+
+    .copyright {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      color: #777;
+      border-top: 1px solid #ddd;
+    }
+
+
+    /* 动画 */
     /* 初始状态 */
     .content {
       opacity: 0;
@@ -67,23 +172,217 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .main-nav ul {
+        gap: 1rem;
+        font-size: 0.9rem;
+      }
+   
+      .main-nav a {
+        font-size: 0.85rem;
+      }
+
+      main {
+        margin-top: 60px;
+      }
+  
+      .footer-columns {
+        grid-template-columns: 1fr;
+      }
+      
+      .swiper-horizontal > .swiper-pagination-bullets {
+      height: 400px; /* 移动端高度 */
+      }
+
+      .swiper-pagination {
+      right: 15px;
+      gap: 10px;
+      }
+
+      .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      }
+}
     
 
-  </style>
+  /* 轮播容器 */
+  /* .swiper-container  */
+  /* 新增Swiper容器样式 */
+
+.swiper-masthead {
+  flex: 1;
+  position: relative; /* .swiper-pagination 定位  */
+  max-width: 100%;
+  height: calc(100vh - 120px); /* 自动高度计算 */
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保持图片比例 */
+  object-position: center;
+}
+
+/* 优化分页点样式  */
+/* 分页点容器 */
+.swiper-horizontal > .swiper-pagination-bullets, 
+.swiper-pagination-horizontal.swiper-pagination-bullets {
+  position: absolute;
+  top: 50%;     /* 垂直居中定位 */
+  transform: translateY(-50%); /* 精确垂直居中 */
+  display: flex;
+  flex-direction: column; /* 垂直排列 */
+  gap: 15px; /* 分页点之间的间距 */
+  z-index: 10;
+  height: fit-content;
+  /* left: 5%;  */
+}
+
+.swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  background: #fff;
+  transform: scale(1.2);
+  opacity: 1;
+}
+
+</style>
 </head>
+
 <body>
-  <div class="content">
-    <h1>你好, 我是黄春呀!</h1>
-    <p>(.ᓀ ·̫ ᓂ ) ♥</p>
-    <a href="gallery.html">
-      <img src="images/hc.jpg" alt="黄春">
-    </a>
-    <!-- Include Footer -->
-    <footer>
-      <a href="index.html">&copy; <span id="year"></span> HC Studio</a>
+    <!-- 新增顶部导航栏 -->
+    <header class="main-header">
+      <div class="logo">
+        <a href="/">
+          <img src="favicon/favicon_256x256.png" alt="HC Studio Logo">
+        </a>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="index.html">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </header>
+
+
+    <!-- 主要内容区 -->
+    <main class="content">
+      <section id="home">
+            <!-- 替换为轮播结构 -->
+            <div class="section-masthead">
+              <div class="carousel">
+                <!-- Slider main container -->
+                <div class="swiper swiper-masthead">
+                  <!-- Additional required wrapper -->
+                  <div class="swiper-wrapper">
+                    <!-- Slides -->
+                    <div class="swiper-slide">
+                      <img src="images/hc.jpg" alt="黄春">
+                      <!-- <div class="slide-content">
+                        <span class="slide-title">你好, 我是黄春呀!</span>
+                        <p class="subtitle">(.ᓀ ·̫ ᓂ ) ♥</p>
+                      </div> -->
+                    </div>
+                    <div class="swiper-slide">
+                      <img src="images/hc2.jpg" alt="黄春2">
+                      <!-- <div class="slide-content">
+                        <span class="slide-title">Operating 24 hours a day</span>
+                        <button class="scrollto" data-scrollto="jams">JAMS</button>
+                      </div> -->
+                    </div>
+                    <div class="swiper-slide">
+                      <img src="images/hc3.jpg" alt="黄春3">
+                      <!-- <div class="slide-content">
+                        <span class="slide-title">Grow a better future</span>
+                        <button class="scrollto" data-scrollto="jams">
+                          <span>JAMS</span>
+                        </button>
+                      </div> -->
+                    </div>
+                  </div>
+                  
+        
+                  <!-- Pagination -->
+                  <div class="swiper-pagination"></div>
+                </div>
+                <h1>你好, 我是黄春呀!</h1>
+                <p class="subtitle">(.ᓀ ·̫ ᓂ ) ♥</p>
+                <!-- <a href="gallery.html" class="main-image">
+                  <img src="images/hc.jpg" alt="黄春">
+                </a> -->
+          </section>
+    </main>
+
+  
+    <!-- 增强版页脚 -->
+    <footer class="main-footer">
+      <div class="footer-columns">
+        <!-- 联系方式 -->
+        <div class="footer-col contact-info">
+          <h3>Contact</h3>
+          <p>📧 contact@hcstudio.com</p>
+          <p>📱 +86 138-1234-5678</p>
+        </div>
+  
+        <!-- 快速链接 -->
+        <div class="footer-col quick-links">
+          <h3>Choon</h3>
+          <ul>
+            <li><a href="gallery.html">Latest</a></li>
+            <li><a href="#services">Design</a></li>
+          </ul>
+        </div>
+  
+        <!-- 社交媒体 -->
+        <div class="footer-col social-media">
+          <h3>Social Media</h3>
+          <div class="social-icons">
+            <a href="#"><img src="icons/insta.png" alt="Instregram"></a>
+            <a href="#"><img src="icons/x.png" alt="X"></a>
+            <a href="#"><img src="icons/weibo.png" alt="Weibo"></a>
+          </div>
+        </div>
+      </div>
+  
+      <div class="copyright">
+        <a href="index.html">&copy; <span id="year"></span> HC Studio</a>
+      </div>
     </footer>
-  </div>
+
+
   <script>
+  document.addEventListener('DOMContentLoaded', function () {
+    new Swiper('.swiper-masthead', {
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+        type: 'bullets', // 使用圆点分页
+      },
+      direction: 'horizontal', // 保持轮播方向为水平
+    });
+  });
+
     // 页面加载完成后添加loaded类触发动画
     window.addEventListener('load', function() {
       document.body.classList.add('loaded');

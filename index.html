@@ -2,20 +2,20 @@
 <html lang="zh">
 <head>
   <!-- 默认的favicon（适用于大多数浏览器） -->
-  <link rel="icon" type="image/x-icon" href="/favicon/favicon_choon/f_choon.ico">
+  <link rel="icon" type="image/x-icon" href="/favicon/favicon_choon/choon_color.ico">
   
   <!-- 针对Chrome和Firefox的PNG格式图标 -->
-  <link rel="icon" type="image/png" href="/favicon/favicon_choon/f_choon_512x512.png" sizes="512x512">
+  <link rel="icon" type="image/png" href="/favicon/favicon_choon/choon_color.png" sizes="512x512">
   
   <!-- 针对Safari的Apple Touch Icon（保存到主屏幕时使用） -->
-  <link rel="apple-touch-icon" href="/favicon/favicon_choon/apple-touch-icon.png">
+  <link rel="apple-touch-icon" href="/favicon/favicon_choon/choon_color.png">
   <meta name="apple-mobile-web-app-title" content="welcome" />
   
   <!-- 针对Safari的SVG格式图标（现代浏览器支持） -->
-  <!-- <link rel="icon" type="image/svg+xml" href="/favicon/favicon_safari.svg"> -->
+  <link rel="icon" type="image/svg+xml" href="/favicon/favicon_choon/choon_color.svg">
  
   <!-- 针对Safari的mask-icon（用于标签页图标） -->
-  <link rel="mask-icon" href="/favicon/favicon_choon/f_choon_color.jpg" color="#000000">
+  <link rel="mask-icon" href="/favicon/favicon_choon/choon_color.png" color="#000000">
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -175,8 +175,12 @@
     </div>
 
     <!-- Include Footer -->
+
     <footer>
-        <a href="gallery.html">&copy; <span id="year"></span>HC Studio</a>
+        <a href="gallery.html">&copy; <span id="year"></span> HC Studio</a>
+        <script>
+            document.getElementById("year").textContent = new Date().getFullYear();
+        </script>
     </footer>
 
     <script>
