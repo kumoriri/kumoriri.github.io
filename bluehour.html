@@ -267,6 +267,20 @@
 
     .phint.hide { opacity: 0; }
 
+    .pcredit {
+      margin-top: 6px;
+      text-align: center;
+      font-size: .66rem;
+      letter-spacing: .05em;
+      color: rgba(240, 238, 252, .38);
+    }
+
+    .pcredit a {
+      color: rgba(240, 238, 252, .5);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(240, 238, 252, .2);
+    }
+
     /* ===== 返回按钮 ===== */
     .back-home {
       position: fixed;
@@ -397,9 +411,10 @@
       <a class="plink" href="https://music.163.com/song?id=22728974" target="_blank" rel="noopener" title="听原曲（网易云音乐）">♪</a>
     </div>
     <p class="phint" id="phint">点击 ▶ 播放氛围音 · 想听原曲请点右侧 ♪</p>
+    <p class="pcredit">♪ Background Music — <a href="https://pixabay.com/users/andriih-29203775/" target="_blank" rel="noopener">andriih</a> · Pixabay License</p>
   </div>
 
-  <audio id="bgm" src="audio/bluehour-ambient.mp3" loop preload="metadata"></audio>
+  <audio id="bgm" src="audio/bluehour-bgm.mp3" loop preload="metadata"></audio>
 
   <script>
     // ===== 氛围音播放器 =====
@@ -431,7 +446,7 @@
       btn.addEventListener('click', function () {
         if (audio.paused) {
           audio.play().catch(function () {
-            hint.textContent = '音频还没放进来：请把文件命名为 audio/bluehour-ambient.mp3';
+            hint.textContent = '音频加载失败，刷新页面再试试';
             hint.classList.remove('hide');
           });
         } else {

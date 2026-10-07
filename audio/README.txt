@@ -1,9 +1,13 @@
 这个文件夹放 bluehour.html 的氛围音。
 
-bluehour-ambient.mp3 目前是「临时占位音频」——一段 48 秒的合成环境音（风声感），
-只为让你看到播放器进度的效果，不是最终内容。
+bluehour-bgm.mp3 = andriih《Background Music》(2:16, 128kbps, 2.1MB)
+来源：Pixabay Music https://pixabay.com/music/background-background-music-background-599243/
+授权：Pixabay Content License —— 免费使用、可商用、无需署名（页面上仍标注了作者以示尊重）
 
-换成你自己的音乐时：直接覆盖这个文件，保持文件名不变（mp3 格式）即可，页面无需改动。
-建议：128kbps 以下、3-5 分钟内、体积控制在 5MB 以内，页面加载才不慢。
+换别的音乐时：
+1) 把新音频转成 128kbps mp3（工具推荐 ffmpeg 或在线转换）
+2) 覆盖 audio/bluehour-bgm.mp3，文件名不变，页面无需改动
+3) 顺手改一下 bluehour.html 里的 .pcredit 署名行
 
-版权提醒：只放你自己录制、或明确允许免费使用/可商用的音乐，不要放商业唱片。
+体积建议：3 分钟内、5MB 以内，否则影响加载。
+底线：只放自己录制或明确允许免费使用的音乐，不要放商业唱片。
