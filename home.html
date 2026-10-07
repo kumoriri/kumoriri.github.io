@@ -209,7 +209,7 @@
       }
       
       .swiper-horizontal > .swiper-pagination-bullets {
-      height: 400px; /* 移动端高度 */
+      left: 14px; /* 移动端贴边一点，原来这里误写了 height:400px 导致圆点跑到下半屏 */
       }
 
       .swiper-pagination {
@@ -262,20 +262,24 @@
   gap: 15px; /* 分页点之间的间距 */
   z-index: 10;
   height: fit-content;
-  /* left: 5%;  */
+  left: 24px; /* 距左边缘留出呼吸空间 */
 }
 
 .swiper-pagination-bullet {
   width: 12px;
   height: 12px;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.85);
+  border: 1.5px solid rgba(0,0,0,0.3);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.5); /* 压在任何明亮图片上都看得清 */
   border-radius: 50%;
   transition: all 0.3s;
+  opacity: 1;
 }
 
 .swiper-pagination-bullet-active {
-  background: #fff;
-  transform: scale(1.2);
+  background: #b897f2; /* 站点的 Dracula 紫 */
+  border-color: #fff;
+  transform: scale(1.25);
   opacity: 1;
 }
 
@@ -511,6 +515,11 @@
   document.addEventListener('DOMContentLoaded', function () {
     new Swiper('.swiper-masthead', {
       loop: true,
+      autoplay: {
+        delay: 4000,               // 每 4 秒切换一张
+        disableOnInteraction: false, // 手动滑动后不永久停止，稍后继续
+        pauseOnMouseEnter: true,     // 鼠标悬停时暂停，方便细看
+      },
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
