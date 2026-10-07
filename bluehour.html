@@ -166,15 +166,106 @@
       bottom: 22px;
       transform: translateX(-50%);
       z-index: 10;
-      max-width: calc(100vw - 32px);
+      width: min(520px, calc(100vw - 32px));
     }
 
-    .player iframe {
-      display: block;
-      max-width: 100%;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, .06);
+    .player-bar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px 10px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .16);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .28);
     }
+
+    .pbtn {
+      flex: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: #b897f2;
+      color: #1a1030;
+      font-size: .95rem;
+      line-height: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform .15s, background .2s;
+    }
+
+    .pbtn:hover { background: #cbb0ff; }
+    .pbtn:active { transform: scale(.92); }
+
+    .ptrack {
+      flex: 1;
+      position: relative;
+      height: 6px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .22);
+      cursor: pointer;
+      touch-action: none;
+    }
+
+    .pfill {
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #8f6fe8, #b897f2);
+      pointer-events: none;
+    }
+
+    .pthumb {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #fff;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 8px rgba(184, 151, 242, .9);
+      pointer-events: none;
+      transition: opacity .2s;
+    }
+
+    .ptime {
+      flex: none;
+      font-size: .72rem;
+      letter-spacing: .04em;
+      color: rgba(240, 238, 252, .72);
+      font-variant-numeric: tabular-nums;
+      min-width: 68px;
+      text-align: right;
+    }
+
+    .plink {
+      flex: none;
+      text-decoration: none;
+      color: rgba(240, 238, 252, .8);
+      font-size: 1rem;
+      padding: 6px;
+      border-radius: 50%;
+      transition: color .2s, background .2s;
+    }
+
+    .plink:hover { color: #fff; background: rgba(184, 151, 242, .28); }
+
+    .phint {
+      margin-top: 10px;
+      text-align: center;
+      font-size: .72rem;
+      letter-spacing: .06em;
+      color: rgba(240, 238, 252, .55);
+      transition: opacity .6s;
+    }
+
+    .phint.hide { opacity: 0; }
 
     /* ===== 返回按钮 ===== */
     .back-home {
@@ -296,11 +387,100 @@
   </main>
 
   <div class="player">
-    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0"
-      width="330" height="86"
-      src="//music.163.com/outchain/player?type=2&id=22728974&auto=0&height=66">
-    </iframe>
+    <div class="player-bar">
+      <button class="pbtn" id="pbtn" type="button" aria-label="播放 / 暂停">▶</button>
+      <div class="ptrack" id="ptrack" role="slider" aria-label="播放进度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" tabindex="0">
+        <div class="pfill" id="pfill"></div>
+        <div class="pthumb" id="pthumb"></div>
+      </div>
+      <span class="ptime" id="ptime">0:00 / 0:00</span>
+      <a class="plink" href="https://music.163.com/song?id=22728974" target="_blank" rel="noopener" title="听原曲（网易云音乐）">♪</a>
+    </div>
+    <p class="phint" id="phint">点击 ▶ 播放氛围音 · 想听原曲请点右侧 ♪</p>
   </div>
+
+  <audio id="bgm" src="audio/bluehour-ambient.mp3" loop preload="metadata"></audio>
+
+  <script>
+    // ===== 氛围音播放器 =====
+    (function () {
+      var audio = document.getElementById('bgm');
+      var btn = document.getElementById('pbtn');
+      var track = document.getElementById('ptrack');
+      var fill = document.getElementById('pfill');
+      var thumb = document.getElementById('pthumb');
+      var timeEl = document.getElementById('ptime');
+      var hint = document.getElementById('phint');
+
+      function fmt(s) {
+        if (!isFinite(s) || s < 0) s = 0;
+        var m = Math.floor(s / 60);
+        var sec = Math.floor(s % 60);
+        return m + ':' + (sec < 10 ? '0' : '') + sec;
+      }
+
+      function paint() {
+        var d = audio.duration || 0;
+        var p = d ? (audio.currentTime / d) * 100 : 0;
+        fill.style.width = p + '%';
+        thumb.style.left = p + '%';
+        timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(d);
+        track.setAttribute('aria-valuenow', Math.round(p));
+      }
+
+      btn.addEventListener('click', function () {
+        if (audio.paused) {
+          audio.play().catch(function () {
+            hint.textContent = '音频还没放进来：请把文件命名为 audio/bluehour-ambient.mp3';
+            hint.classList.remove('hide');
+          });
+        } else {
+          audio.pause();
+        }
+      });
+
+      audio.addEventListener('play', function () {
+        btn.textContent = '❚❚';
+        hint.classList.add('hide');
+      });
+
+      audio.addEventListener('pause', function () {
+        btn.textContent = '▶';
+      });
+
+      audio.addEventListener('timeupdate', paint);
+      audio.addEventListener('loadedmetadata', paint);
+      audio.addEventListener('ended', function () { btn.textContent = '▶'; });
+
+      // 点击 / 拖动进度条跳转
+      function seekTo(clientX) {
+        var d = audio.duration;
+        if (!d) return;
+        var rect = track.getBoundingClientRect();
+        var ratio = Math.min(Math.max((clientX - rect.left) / rect.width, 0), 1);
+        audio.currentTime = ratio * d;
+        paint();
+      }
+
+      var dragging = false;
+      track.addEventListener('pointerdown', function (e) {
+        dragging = true;
+        track.setPointerCapture(e.pointerId);
+        seekTo(e.clientX);
+      });
+      track.addEventListener('pointermove', function (e) { if (dragging) seekTo(e.clientX); });
+      track.addEventListener('pointerup', function () { dragging = false; });
+      track.addEventListener('pointercancel', function () { dragging = false; });
+
+      // 键盘左右键微调
+      track.addEventListener('keydown', function (e) {
+        if (e.key === 'ArrowRight') { audio.currentTime = Math.min((audio.currentTime || 0) + 5, audio.duration || 0); paint(); }
+        if (e.key === 'ArrowLeft') { audio.currentTime = Math.max((audio.currentTime || 0) - 5, 0); paint(); }
+      });
+
+      paint();
+    })();
+  </script>
 
   <script>
     // 生成满天星星：位置、大小、闪烁节奏全部随机
