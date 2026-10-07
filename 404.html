@@ -98,6 +98,14 @@
       min-height: 2.9em;
     }
 
+    .screen-msg .msg-tip {
+      display: block;
+      margin-top: 6px;
+      font-size: .72em;
+      opacity: .68;
+      letter-spacing: .02em;
+    }
+
     .track {
       font-family: 'Pixelify Sans', monospace;
       font-size: .72rem;
@@ -329,7 +337,7 @@
     </div>
 
     <div class="search-row" id="searchRow">
-      <input id="q" type="text" placeholder="请找到黄春…!" aria-label="搜索">
+      <input id="q" type="text" placeholder="请找到黄春…!" aria-label="搜索" title="可以搜：首页 / Gallery / 音乐 / 海鸥 / 原曲 / 黄春">
       <button id="go">SEARCH</button>
     </div>
 
@@ -412,26 +420,81 @@
       bar.style.width = p + '%';
     }, 380);
 
-    // ===== 搜索：保留原来的梗 =====
+    // ===== 搜索：站内跳转 + 老梗彩蛋 =====
+    // 迷你索引（纯前端，无后端）：命中就真跳转，没命中才落回玩笑
+    var INDEX = [
+      { name: '首页', href: 'home.html', keys: ['首页', '主页', '回去', '起始', 'home'] },
+      { name: '欢迎动画', href: 'index.html', keys: ['欢迎', '动画', '开场', 'index'] },
+      { name: 'Gallery', href: 'gallery.html', keys: ['画廊', '相册', '照片', '图片', '黄春', 'gallery'] },
+      { name: '网易云《千年幸福論》', href: 'https://music.163.com/song?id=22728974', keys: ['原曲', 'amazarashi', '网易', '千年', '幸福論'] },
+      { name: '氛围音来源', href: 'https://pixabay.com/music/background-background-music-background-599243/', keys: ['andriih', 'pixabay'] },
+      { name: 'Blue Hour 音乐页', href: 'bluehour.html', keys: ['音乐', '歌', 'blue', 'hour', '星空', '氛围', '钢琴', '歌词'] },
+      { name: '这台 MP-404', href: '404.html', keys: ['404', '随身听', 'mp-404', 'not found', '错误'] },
+      { name: '首页轮播', href: 'home.html', keys: ['海鸥', '火车', '轮播', 'haiou', 'train', 'yjx'] }
+    ];
+
+    var searching = false;
+
     function doSearch() {
+      if (searching) return;
       var v = document.getElementById('q').value.trim();
       var row = document.getElementById('searchRow');
+      var low = v.toLowerCase();
+
+      if (!v) {
+        shakeSearch(row);
+        msg.innerHTML = '总得写点什么吧…<br><span class="msg-tip">试试：gallery · 音乐 · 海鸥</span>';
+        return;
+      }
+
+      // 隐藏彩蛋：不跳转，只回话
+      if (low.indexOf('秘密') > -1 || low.indexOf('彩蛋') > -1 || low.indexOf('easter') > -1) {
+        msg.innerHTML = '✦ 彩蛋说明书 ✦<br><span class="msg-tip">连点唱片 5 下有隐藏曲目；这台机器永远在加载</span>';
+        return;
+      }
+      if (low.indexOf('kumori') > -1 || low.indexOf('くもり') > -1) {
+        msg.innerHTML = 'くもり…<br><span class="msg-tip">那是这台机器的主人啊</span>';
+        return;
+      }
+
+      // 命中索引：真跳转
+      for (var i = 0; i < INDEX.length; i++) {
+        var item = INDEX[i];
+        for (var j = 0; j < item.keys.length; j++) {
+          if (low.indexOf(item.keys[j]) > -1) {
+            searching = true;
+            var target = item.href;
+            var isOut = target.indexOf('http') === 0;
+            msg.innerHTML = '找到啦：' + item.name + '<br><span class="msg-tip">正在' + (isOut ? '打开' : '翻到') + '……</span>';
+            setTimeout(function () {
+              if (isOut) window.open(target, '_blank', 'noopener');
+              else location.href = target;
+              searching = false;
+            }, 700);
+            return;
+          }
+        }
+      }
+
+      // 没命中 → 老彩蛋
+      shakeSearch(row);
+      msg.innerHTML = '搜索失败：黄春出门看海了 ✧<br><span class="msg-tip">试试：gallery · 音乐 · 海鸥</span>';
+    }
+
+    function shakeSearch(row) {
       row.classList.remove('shake');
       void row.offsetWidth;
       row.classList.add('shake');
-
-      if (!v) {
-        msg.innerHTML = '总得写点什么吧…';
-      } else if (v.indexOf('黄春') > -1) {
-        msg.innerHTML = '咦？搜到点线索……<br>（但还是没有）';
-      } else {
-        msg.innerHTML = '搜索失败：黄春出门看海了 ✧';
-      }
     }
 
     document.getElementById('go').onclick = doSearch;
     document.getElementById('q').addEventListener('keydown', function (e) {
       if (e.key === 'Enter') doSearch();
+    });
+
+    // 聚焦输入框时，顺手告诉访客这里面能搜什么
+    document.getElementById('q').addEventListener('focus', function () {
+      msg.innerHTML = '可以搜：首页 · Gallery · 音乐 · 海鸥 · 原曲<br><span class="msg-tip">也可以随便乱打，它会尽力吐槽</span>';
     });
 
     // ===== 彩蛋：点唱片 5 下为隐藏曲目 =====
