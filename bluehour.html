@@ -256,8 +256,8 @@
 
     .plink:hover { color: #fff; background: rgba(184, 151, 242, .28); }
 
-    /* ===== 右下角像素按键 ===== */
-    .pixel-keys {
+    /* ===== 右下角悬浮按键（玻璃感紫蓝） ===== */
+    .float-keys {
       position: fixed;
       right: 26px;
       bottom: 26px;
@@ -269,73 +269,49 @@
 
     .pkey {
       position: relative;
-      width: 56px;
-      height: 56px;
+      width: 52px;
+      height: 52px;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 0 0 7px;
-      border: none;
+      padding: 0;
+      border: 1px solid rgba(184, 151, 242, .32);
+      border-radius: 18px;
       cursor: pointer;
       text-decoration: none;
-      border-radius: 6px;
-      background: linear-gradient(180deg, #6d9bf5 0%, #4a77d8 100%);
-      /* 像素风立体感：深色描边 + 左上高光 + 右下暗面 + 厚底边 + 投影 */
-      box-shadow:
-        0 0 0 3px #23408a,
-        inset 3px 3px 0 rgba(206, 224, 255, .6),
-        inset -3px -3px 0 rgba(16, 36, 88, .45),
-        0 6px 0 #1b3170,
-        0 12px 20px rgba(8, 18, 46, .55);
-      transition: transform .08s ease-out, box-shadow .12s ease-out, filter .15s;
+      background: rgba(122, 106, 236, .28); /* 平时半透明 */
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 18px rgba(20, 16, 48, .25);
+      transition: background .25s, border-color .25s, box-shadow .25s, transform .15s;
     }
 
-    /* 按键底部那条亮条 */
-    .pkey::after {
-      content: '';
-      position: absolute;
-      left: 7px;
-      right: 7px;
-      bottom: 5px;
-      height: 3px;
-      border-radius: 1px;
-      background: #cfe0ff;
-      opacity: .75;
-    }
-
-    .pkey-icon {
-      width: 30px;
-      height: 30px;
-      margin-bottom: 3px;
-      shape-rendering: crispEdges;
-    }
-
+    /* 鼠标放上去：变为不透明实色 */
     .pkey:hover {
-      filter: brightness(1.08);
+      background: rgba(139, 122, 244, .95);
+      border-color: rgba(199, 175, 255, .65);
+      box-shadow: 0 6px 26px rgba(122, 106, 236, .5);
       transform: translateY(-2px);
-      box-shadow:
-        0 0 0 3px #23408a,
-        inset 3px 3px 0 rgba(206, 224, 255, .7),
-        inset -3px -3px 0 rgba(16, 36, 88, .45),
-        0 8px 0 #1b3170,
-        0 14px 24px rgba(8, 18, 46, .6);
     }
 
-    /* 按下去：整块下沉，厚底边收窄 */
     .pkey:active {
-      transform: translateY(4px);
-      box-shadow:
-        0 0 0 3px #23408a,
-        inset 3px 3px 0 rgba(206, 224, 255, .45),
-        inset -3px -3px 0 rgba(16, 36, 88, .5),
-        0 2px 0 #1b3170,
-        0 6px 12px rgba(8, 18, 46, .5);
+      transform: translateY(0) scale(.95);
+      background: rgba(139, 122, 244, .8);
     }
 
     .pkey:focus-visible {
-      outline: 3px solid #cfe0ff;
-      outline-offset: 4px;
+      outline: 2px solid #cfc0ff;
+      outline-offset: 3px;
     }
+
+    .pkey-icon {
+      width: 26px;
+      height: 26px;
+      opacity: .92;
+      shape-rendering: crispEdges;
+    }
+
+    .pkey:hover .pkey-icon { opacity: 1; }
 
     /* 静音状态：显示叉号、隐藏声波 */
     .pkey .pk-cross { display: none; }
@@ -401,10 +377,10 @@
       .moon { width: 64px; height: 64px; right: 10%; top: 8%; }
       main { padding-bottom: 180px; }
       .lyrics { font-size: .9rem; line-height: 2.1; }
-      /* 窄屏播放器几乎占满宽度，把像素键上移避免重叠 */
-      .pixel-keys { right: 14px; bottom: 156px; gap: 10px; }
-      .pkey { width: 50px; height: 50px; }
-      .pkey-icon { width: 26px; height: 26px; }
+      /* 窄屏播放器几乎占满宽度，把悬浮键上移避免重叠 */
+      .float-keys { right: 14px; bottom: 156px; gap: 10px; }
+      .pkey { width: 46px; height: 46px; border-radius: 16px; }
+      .pkey-icon { width: 24px; height: 24px; }
     }
   </style>
 </head>
@@ -504,8 +480,8 @@
     <p class="pcredit">♪ <a href="https://pixabay.com/music/background-background-music-background-599243/" target="_blank" rel="noopener">Background Music — andriih</a> · Pixabay License</p>
   </div>
 
-  <!-- ===== 右下角像素按键 ===== -->
-  <div class="pixel-keys">
+  <!-- ===== 右下角悬浮按键 ===== -->
+  <div class="float-keys">
     <button class="pkey" id="pvol" type="button" aria-label="静音 / 取消静音" title="静音 / 取消静音">
       <svg class="pkey-icon" viewBox="0 0 16 16" aria-hidden="true">
         <g fill="#f2f7ff">
