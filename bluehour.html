@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blue Hour — 千年幸福論</title>
+  <meta name="description" content="くもりの Blue Hour — amazarashi《千年幸福論》">
+
+  <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
+  <link rel="icon" type="image/png" href="/favicon/favicon_256x256.png" sizes="256x256">
+  <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&family=Ropa+Sans&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Ropa Sans', 'Shippori Mincho', serif;
+      color: #f0eefc;
+      background: #0a1030;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ===== 蓝色时刻的夜空（固定背景，滚动歌词时像浮在天空里） ===== */
+    .sky {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background: linear-gradient(180deg,
+        #070c26 0%,
+        #101a4a 30%,
+        #232565 58%,
+        #4a3f8f 82%,
+        #6f5bb0 100%);
+    }
+
+    .moon {
+      position: fixed;
+      top: 11%;
+      right: 14%;
+      width: 88px;
+      height: 88px;
+      border-radius: 50%;
+      background: #fdf3da;
+      opacity: .92;
+      box-shadow: 0 0 70px 24px rgba(253, 243, 218, .22);
+      z-index: -1;
+    }
+
+    .star {
+      position: fixed;
+      background: #fff;
+      border-radius: 50%;
+      z-index: -1;
+      animation: twinkle ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: .12; }
+      50% { opacity: .95; }
+    }
+
+    .accent-star {
+      position: fixed;
+      color: #b897f2;
+      z-index: -1;
+      font-size: 16px;
+      animation: twinkle 5s ease-in-out infinite, drift 14s ease-in-out infinite alternate;
+    }
+
+    @keyframes drift {
+      from { transform: translateY(0); }
+      to { transform: translateY(-18px); }
+    }
+
+    .shooting-star {
+      position: fixed;
+      top: 22%;
+      left: -8%;
+      width: 130px;
+      height: 1.5px;
+      background: linear-gradient(90deg, rgba(255,255,255,.95), transparent);
+      transform: rotate(16deg);
+      opacity: 0;
+      z-index: -1;
+      animation: shoot 9s linear infinite;
+    }
+
+    @keyframes shoot {
+      0% { transform: translate(0, 0) rotate(16deg); opacity: 0; }
+      2% { opacity: 1; }
+      11% { transform: translate(78vw, 34vh) rotate(16deg); opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    /* ===== 内容 ===== */
+    main {
+      position: relative;
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 14vh 24px 220px;
+      text-align: center;
+      opacity: 0;
+      animation: fadein 2s ease-out .3s forwards;
+    }
+
+    @keyframes fadein { to { opacity: 1; } }
+
+    .kicker {
+      font-size: .85rem;
+      letter-spacing: .45em;
+      text-transform: uppercase;
+      color: #b897f2;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 500;
+      font-size: clamp(2rem, 6vw, 3rem);
+      letter-spacing: .18em;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 24px rgba(0,0,0,.35);
+    }
+
+    .artist {
+      font-style: italic;
+      font-size: .95rem;
+      color: rgba(240, 238, 252, .66);
+      letter-spacing: .12em;
+      margin-bottom: 8vh;
+    }
+
+    .lyrics {
+      font-family: 'Shippori Mincho', serif;
+      font-size: .98rem;
+      line-height: 2.3;
+      letter-spacing: .1em;
+      color: rgba(240, 238, 252, .82);
+    }
+
+    .lyrics p {
+      margin-bottom: 2.6em;
+    }
+
+    .lyrics em {
+      font-style: normal;
+      color: #d9c8ff;
+    }
+
+    .end-note {
+      margin-top: 6vh;
+      font-size: .78rem;
+      letter-spacing: .3em;
+      color: rgba(184, 151, 242, .75);
+    }
+
+    /* ===== 底部悬浮播放器 ===== */
+    .player {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translateX(-50%);
+      z-index: 10;
+      max-width: calc(100vw - 32px);
+    }
+
+    .player iframe {
+      display: block;
+      max-width: 100%;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, .06);
+    }
+
+    /* ===== 返回按钮 ===== */
+    .back-home {
+      position: fixed;
+      top: 18px;
+      left: 18px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: rgba(240, 238, 252, .75);
+      font-size: .9rem;
+      letter-spacing: .08em;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .07);
+      backdrop-filter: blur(6px);
+      transition: color .3s, background .3s;
+    }
+
+    .back-home:hover {
+      color: #fff;
+      background: rgba(184, 151, 242, .25);
+    }
+
+    .back-home img {
+      height: 26px;
+      width: auto;
+    }
+
+    @media (max-width: 600px) {
+      .moon { width: 64px; height: 64px; right: 10%; top: 8%; }
+      main { padding-bottom: 180px; }
+      .lyrics { font-size: .9rem; line-height: 2.1; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="sky" aria-hidden="true"></div>
+  <div class="moon" aria-hidden="true"></div>
+  <span class="accent-star" style="top: 18%; left: 12%;">✦</span>
+  <span class="accent-star" style="top: 34%; right: 22%; animation-delay: 1.6s;">✧</span>
+  <span class="accent-star" style="top: 58%; left: 8%; animation-delay: 3s;">✦</span>
+  <span class="shooting-star" aria-hidden="true"></span>
+
+  <a class="back-home" href="home.html">
+    <img src="icons/kumoriri_logo.png" alt="くもり">
+    home
+  </a>
+
+  <main>
+    <p class="kicker">Blue Hour</p>
+    <h1>千年幸福論</h1>
+    <p class="artist">amazarashi · 秋田ひろむ</p>
+
+    <div class="lyrics">
+      <p>この地上にあるもの全てが
+      时と共に形変え行くものならば
+      仆らが抱いてる贵いものに
+      本当にすがる価値はあるのでしょうか</p>
+
+      <p>気まぐれに摘んだ
+      たおやかな花は
+      见る影もなく丑く枯れた
+      そんな风に変わってしまうかな
+      とても优しいあなたも</p>
+
+      <p><em>千年続く爱情を
+      千年続く友情を
+      千年続く安心を
+      千年続く幸福を</em>
+      仆らは望んで止まないけれど
+      そんなもの何処にありましょうか</p>
+
+      <p>电车の脱线事故が起こったって
+      夕方のテレビニュースでやっている
+      亡くなった人の家族や恋人の
+      悲しみに目をそむけてしまう</p>
+
+      <p>终わりはいつかやってくると知った时
+      初めて人が爱しくなる
+      あなたじゃなくて良かったと思う仆は
+      やはり浅ましい人间でしょうか</p>
+
+      <p><em>千年続く爱情を
+      千年続く友情を
+      千年続く安心を
+      千年続く幸福を</em>
+      马鹿げた事かもしれないけれど
+      あなたよどうか生きていて</p>
+
+      <p>あなたが居なくなっても生きる仆を
+      许せないといったら笑うでしょうか?
+      仆がいなくても生きていくあなたを
+      「悲しい」と言ってはいけませんか?</p>
+
+      <p><em>千年続く爱情を
+      千年続く友情を
+      千年続く安心を
+      千年続く幸福を
+      千年続く自负心を
+      千年続く安らぎを
+      千年続く友爱を
+      千年続く热情を
+      千年続くいたわりを
+      千年続く尊厳を
+      千年続く生命を
+      千年続く喜びを</em></p>
+
+      <p>终わりがあるから美しい
+      そんなの分かりたくもないよ
+      千年続く幸福を
+      终わりはいつも早すぎる</p>
+    </div>
+
+    <p class="end-note">✦ 終わりがあるから美しい ✦</p>
+  </main>
+
+  <div class="player">
+    <iframe frameborder="no" border="0" marginwidth="0" marginheight="0"
+      width="330" height="86"
+      src="//music.163.com/outchain/player?type=2&id=22728974&auto=0&height=66">
+    </iframe>
+  </div>
+
+  <script>
+    // 生成满天星星：位置、大小、闪烁节奏全部随机
+    (function () {
+      var count = window.innerWidth < 600 ? 55 : 95;
+      for (var i = 0; i < count; i++) {
+        var s = document.createElement('span');
+        s.className = 'star';
+        var size = (Math.random() * 2.2 + 0.8).toFixed(1);
+        s.style.cssText =
+          'left:' + (Math.random() * 100).toFixed(2) + '%;' +
+          'top:' + (Math.random() * 100).toFixed(2) + '%;' +
+          'width:' + size + 'px;height:' + size + 'px;' +
+          'animation-duration:' + (2 + Math.random() * 4.5).toFixed(2) + 's;' +
+          'animation-delay:' + (Math.random() * 5).toFixed(2) + 's;';
+        document.body.appendChild(s);
+      }
+    })();
+  </script>
+</body>
+</html>
