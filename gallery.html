@@ -154,9 +154,10 @@
       div.className = 'photo-item';
 
       const img = document.createElement('img');
-      img.src = `images/hc${i}.jpg`; // 动态生成图片路径
+      img.src = `images/hc${i}.webp`; // 动态生成图片路径
       img.alt = `黄春${i}`; // 动态生成 alt 属性
-      img.dataset.src = `images/hc${i}.jpg`;
+      img.loading = 'lazy'; // 懒加载：滚到可视区域才加载
+      img.dataset.src = `images/hc${i}.webp`;
 
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';

@@ -6,8 +6,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&family=Ropa+Sans:ital@0;1&display=swap" rel="stylesheet">
   <!-- 引入 Swiper 的样式和脚本文件 -->
-  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/swiper@11/swiper-bundle.min.css">
+  <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js" defer></script>
 
   <!-- 默认的favicon 适用于大多数浏览器 -->
   <link rel="icon" type="image/x-icon" href="/favicon/favicon.ico">
@@ -83,8 +83,21 @@
       font-family: Arial, sans-serif;
       text-align: center;
       margin-top: 60px;
+      line-height: 1;
+  
+      /* 背景图 */
+      /* background-image: url('driving0509.jpg');
+      background-repeat: repeat;
+      background-attachment: fixed;
+      min-height: 100vh;
+      font-family: Arial, sans-serif; */
     }
-
+      /* 段落样式 */
+    p {
+            margin: 15px 0;  /* 上下15px 左右0 */
+            padding: 10px 0; /* 内容上下10px内边距 */
+    }
+    
     h1 {
       color: #0366d6; 
     }
@@ -265,6 +278,41 @@
   text-decoration: none;
 }
 
+/* blog文字 目前没用*/
+.blog-container {
+  max-width: 800px; /* 控制内容最大宽度，保持整齐 */
+  margin: 0 auto;   /* 居中显示 */
+  padding: 20px;
+  font-family: "Arial", sans-serif; /* 字体 */
+}
+
+.blog-content {
+  line-height: 1.6;  /* 行高，提升可读性 */
+  color: #333;      /* 文字颜色 */
+  text-align: justify; /* 两端对齐（可选） */
+  word-wrap: break-word; /* 长单词或URL自动换行 */
+}
+
+.blog-content p {
+  margin-bottom: 1em; /* 段落间距 */
+}
+
+/* 定义 pre 的样式 */
+    pre.lyrics {
+      font-family: "Arial", sans-serif;
+      white-space: pre-wrap; /* 保留换行 + 自动换行 */
+      line-height: 1.6;
+      color: #555555;
+      background: #eae5f9;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 700px; /* 限制宽度，避免过长 */
+        /* 新增以下属性实现居中+留白 */
+      margin: 0 auto;      /* 水平居中 */
+      margin-top: 10px;    /* 顶部留白（可选） */
+      margin-bottom: 10px; /* 底部留白（可选） */
+    }
+
 </style>
 </head>
 
@@ -299,21 +347,21 @@
                   <div class="swiper-wrapper">
                     <!-- Slides -->
                     <div class="swiper-slide">
-                      <img src="images/haiou.jpg" alt="海鸥">
+                      <img src="images/haiou.webp" alt="海鸥">
                       <!-- <div class="slide-content">
                         <span class="slide-title">你好, 我是黄春呀!</span>
                         <p class="subtitle">(.ᓀ ·̫ ᓂ ) ♥</p>
                       </div> -->
                     </div>
                     <div class="swiper-slide">
-                      <img src="images/yjx.jpg" alt="yjx">
+                      <img src="images/yjx.webp" alt="yjx" loading="lazy">
                       <!-- <div class="slide-content">
                         <span class="slide-title">Operating 24 hours a day</span>
                         <button class="scrollto" data-scrollto="jams">JAMS</button>
                       </div> -->
                     </div>
                     <div class="swiper-slide">
-                      <img src="images/train.jpg" alt="火车">
+                      <img src="images/train.webp" alt="火车" loading="lazy">
                       <!-- <div class="slide-content">
                         <span class="slide-title">Grow a better future</span>
                         <button class="scrollto" data-scrollto="jams">
@@ -327,77 +375,65 @@
                   <!-- Pagination -->
                   <div class="swiper-pagination"></div>
                 </div>
+                <div class="blog-container"></div>
                 <h1>くもり</h1>
-                <!-- <p class="subtitle">(.ᓀ ·̫ ᓂ ) ♥</p> -->
+                <p style="font-style: italic;">网站功能不定时开发中，如有建议请下方邮件联系</p>
                 <!-- <a href="gallery.html" class="main-image">
                   <img src="images/hc.jpg" alt="黄春">
                 </a> -->
-                <!-- <div class="music">
-                <a href="https://music.163.com/..." class="no-underline">🎵</a>
-                </div>
-                style="text-decoration: none;
-                } -->
                 <div class="music">
-                <a href="https://music.163.com/song?id=22728974&uct2=U2FsdGVkX1/0GD1mK4znbv/kj6BYuyu5tcZy6VmpBMY=" class="no-underline">♪</a>
-                </div>
-                <div class="blog-content"></div>
-                <p style="font-size: 20px; color: rgb(70, 120, 237);">千年幸福論</p>
-                <p style="font-style: italic;">amazarashi</p>
-                <p style="font-style: italic;">秋田ひろむ</p>
-                <p>この地上にあるもの全てが
-                <p>时と共に形変え行くものならば</p>
-<p>仆らが抱いてる贵いものに</p>
-<p>本当にすがる価値はあるのでしょうか</p>
-<p>気まぐれに摘んだ</p>
-<p>たおやかな花は</p>
-<p>见る影もなく丑く枯れた</p>
-<p>そんな风に変わってしまうかな
-<p>とても优しいあなたも
+                <a href="https://c6.y.qq.com/base/fcgi-bin/u?__=4MiexRnTFD2x" class="no-underline">♪</a></div>
+                <!-- <div class="blog-content"></div> -->
+                <!-- <p style="font-style: italic;">ONEWE</p> -->
+                <pre class="lyrics">
+<p style="font-size: 20px; color: rgb(70, 120, 237);">순애 純愛 : Endless</p>
+ONEWE
+[Chorus: Yonghoon]
+너무 좋아해서 애써 외면했어
+차갑게 식어 버린 널
+떠올리기 싫던 너와의 이별은
+ 막상 금방 끝나더라
 
-<p>千年続く爱情を
-<p>千年続く友情を
-<p>千年続く安心を
-<p>千年続く幸福を</p>
-<p>仆らは望んで止まないけれど
-<p>そんなもの何処にありましょうか</p>
+[Verse: Yonghoon]
+처음이니까 내가 먼저 좋아한 건
+너의 모든 게 좋아서
+어색한 표정과 서툰 내 말투가
+너는 다 좋다고 말했어
 
-<p>电车の脱线事故が起こったって
-<p>夕方のテレビニュースでやっている</p>
-<p>亡くなった人の家族や恋人の
-<p>悲しみに目をそむけてしまう
-<p>终わりはいつかやってくると知った时
-<p>初めて人が爱しくなる
-<p>あなたじゃなくて良かったと思う仆は
-<p>やはり浅ましい人间でしょうか
+[Pre-Chorus: Dongmyeong]
+나의 마음이 커져 버리면
+언젠간 너에게 부담이 될까 봐
+사랑한다는 말 그 한마디조차
+쉽게 닿기가 어려웠어
 
-<p>千年続く爱情を
-<p>千年続く友情を
-<p>千年続く安心を
-<p>千年続く幸福を
-<p>马鹿げた事かもしれないけれど
-<p>あなたよどうか生きていて
+[Chorus: Yonghoon, Dongmyeong]
+너무 좋아해서 애써 외면했어
+차갑게 식어 버린 널
+떠올리기 싫던 너와의 이별은
+막상 금방 끝나더라
 
-<p>あなたが居なくなっても生きる仆を
-<p>许せないといったら笑うでしょうか?
-<p>仆がいなくても生きていくあなたを
-<p>「悲しい」と言ってはいけませんか?
+나만 좋아해서 우리의 사이는
+네가 놓아버리면
+순식간에 깨져버려서 주워 담지 못해
+그대로 사라질 거야
 
-<p>千年続く爱情を
-<p>千年続く友情を
-<p>千年続く安心を
-<p>千年続く幸福を</p>
-<p>千年続く自负心を
-<p>千年続く安らぎを
-<p>千年続く友爱を
-<p>千年続く热情を</p>
-<p>千年続くいたわりを
-<p>千年続く尊厳を
-<p>千年続く生命を
-<p>千年続く喜びを</p>
-<p>终わりがあるから美しい
-<p>そんなの分かりたくもないよ</p>
-<p>千年続く幸福を</p>
-<p>终わりはいつも早すぎる</p>
+[Bridge: Dongmyeong, Yonghoon]
+너도 나와 같은 마음이었겠지
+시간이 흐르니 서서히 변했겠지
+사실은 여전히 나는 그대로야
+아직 내 마음은 너를 잃기 싫어
+
+[Chorus: Yonghoon]
+영원이란 말은 잠시뿐인 것을
+나도 잘 알고 있지만
+시간이 흐르고 솔직히 지금도
+그 말을 믿고 싶은데
+잊어야 되겠지 그래야 되겠지
+뜨겁게 타올랐던 너와 나
+좋아했으니까 당연한 거니까
+잠시 생각이 난 거야
+</pre>
+
 
                 </div>
           </section>
