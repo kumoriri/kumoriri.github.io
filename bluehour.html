@@ -256,6 +256,27 @@
 
     .plink:hover { color: #fff; background: rgba(184, 151, 242, .28); }
 
+    .pvol {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      margin-left: 2px;
+      font-size: 1rem;
+      line-height: 1;
+      color: rgba(240, 238, 252, .8);
+      background: none;
+      border: none;
+      padding: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: color .2s, background .2s;
+    }
+
+    .pvol:hover { color: #fff; background: rgba(184, 151, 242, .28); }
+
     .phint {
       margin-top: 10px;
       text-align: center;
@@ -409,6 +430,7 @@
       </div>
       <span class="ptime" id="ptime">0:00 / 0:00</span>
       <a class="plink" href="https://music.163.com/song?id=22728974" target="_blank" rel="noopener" title="听原曲（网易云音乐）">♪</a>
+      <button class="pvol" id="pvol" type="button" aria-label="静音 / 取消静音" title="静音 / 取消静音">🔊</button>
     </div>
     <p class="phint" id="phint">点击 ▶ 播放氛围音 · 想听原曲请点右侧 ♪</p>
     <p class="pcredit">♪ <a href="https://pixabay.com/music/background-background-music-background-599243/" target="_blank" rel="noopener">Background Music — andriih</a> · Pixabay License</p>
@@ -461,6 +483,16 @@
 
       audio.addEventListener('pause', function () {
         btn.textContent = '▶';
+      });
+
+      // 静音 / 取消静音（右下角音量键）
+      var volBtn = document.getElementById('pvol');
+      volBtn.addEventListener('click', function () {
+        audio.muted = !audio.muted;
+        volBtn.textContent = audio.muted ? '🔇' : '🔊';
+        var label = audio.muted ? '取消静音' : '静音';
+        volBtn.setAttribute('aria-label', label);
+        volBtn.title = label;
       });
 
       audio.addEventListener('timeupdate', paint);
