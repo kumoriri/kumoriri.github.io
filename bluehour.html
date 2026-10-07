@@ -256,26 +256,91 @@
 
     .plink:hover { color: #fff; background: rgba(184, 151, 242, .28); }
 
-    .pvol {
-      flex: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 32px;
-      height: 32px;
-      margin-left: 2px;
-      font-size: 1rem;
-      line-height: 1;
-      color: rgba(240, 238, 252, .8);
-      background: none;
-      border: none;
-      padding: 0;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: color .2s, background .2s;
+    /* ===== 右下角像素按键 ===== */
+    .pixel-keys {
+      position: fixed;
+      right: 26px;
+      bottom: 26px;
+      z-index: 12;
+      display: flex;
+      align-items: flex-end;
+      gap: 14px;
     }
 
-    .pvol:hover { color: #fff; background: rgba(184, 151, 242, .28); }
+    .pkey {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 0 7px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #6d9bf5 0%, #4a77d8 100%);
+      /* 像素风立体感：深色描边 + 左上高光 + 右下暗面 + 厚底边 + 投影 */
+      box-shadow:
+        0 0 0 3px #23408a,
+        inset 3px 3px 0 rgba(206, 224, 255, .6),
+        inset -3px -3px 0 rgba(16, 36, 88, .45),
+        0 6px 0 #1b3170,
+        0 12px 20px rgba(8, 18, 46, .55);
+      transition: transform .08s ease-out, box-shadow .12s ease-out, filter .15s;
+    }
+
+    /* 按键底部那条亮条 */
+    .pkey::after {
+      content: '';
+      position: absolute;
+      left: 7px;
+      right: 7px;
+      bottom: 5px;
+      height: 3px;
+      border-radius: 1px;
+      background: #cfe0ff;
+      opacity: .75;
+    }
+
+    .pkey-icon {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 3px;
+      shape-rendering: crispEdges;
+    }
+
+    .pkey:hover {
+      filter: brightness(1.08);
+      transform: translateY(-2px);
+      box-shadow:
+        0 0 0 3px #23408a,
+        inset 3px 3px 0 rgba(206, 224, 255, .7),
+        inset -3px -3px 0 rgba(16, 36, 88, .45),
+        0 8px 0 #1b3170,
+        0 14px 24px rgba(8, 18, 46, .6);
+    }
+
+    /* 按下去：整块下沉，厚底边收窄 */
+    .pkey:active {
+      transform: translateY(4px);
+      box-shadow:
+        0 0 0 3px #23408a,
+        inset 3px 3px 0 rgba(206, 224, 255, .45),
+        inset -3px -3px 0 rgba(16, 36, 88, .5),
+        0 2px 0 #1b3170,
+        0 6px 12px rgba(8, 18, 46, .5);
+    }
+
+    .pkey:focus-visible {
+      outline: 3px solid #cfe0ff;
+      outline-offset: 4px;
+    }
+
+    /* 静音状态：显示叉号、隐藏声波 */
+    .pkey .pk-cross { display: none; }
+    .pkey.is-muted .pk-cross { display: block; }
+    .pkey.is-muted .pk-waves { display: none; }
 
     .phint {
       margin-top: 10px;
@@ -336,6 +401,10 @@
       .moon { width: 64px; height: 64px; right: 10%; top: 8%; }
       main { padding-bottom: 180px; }
       .lyrics { font-size: .9rem; line-height: 2.1; }
+      /* 窄屏播放器几乎占满宽度，把像素键上移避免重叠 */
+      .pixel-keys { right: 14px; bottom: 156px; gap: 10px; }
+      .pkey { width: 50px; height: 50px; }
+      .pkey-icon { width: 26px; height: 26px; }
     }
   </style>
 </head>
@@ -430,10 +499,49 @@
       </div>
       <span class="ptime" id="ptime">0:00 / 0:00</span>
       <a class="plink" href="https://music.163.com/song?id=22728974" target="_blank" rel="noopener" title="听原曲（网易云音乐）">♪</a>
-      <button class="pvol" id="pvol" type="button" aria-label="静音 / 取消静音" title="静音 / 取消静音">🔊</button>
     </div>
     <p class="phint" id="phint">点击 ▶ 播放氛围音 · 想听原曲请点右侧 ♪</p>
     <p class="pcredit">♪ <a href="https://pixabay.com/music/background-background-music-background-599243/" target="_blank" rel="noopener">Background Music — andriih</a> · Pixabay License</p>
+  </div>
+
+  <!-- ===== 右下角像素按键 ===== -->
+  <div class="pixel-keys">
+    <button class="pkey" id="pvol" type="button" aria-label="静音 / 取消静音" title="静音 / 取消静音">
+      <svg class="pkey-icon" viewBox="0 0 16 16" aria-hidden="true">
+        <g fill="#f2f7ff">
+          <rect x="2" y="6" width="2" height="4"/>
+          <rect x="4" y="5" width="2" height="6"/>
+          <rect x="6" y="3" width="3" height="10"/>
+          <rect x="9" y="1" width="2" height="14"/>
+        </g>
+        <g fill="#f2f7ff" class="pk-waves">
+          <rect x="12" y="6" width="1" height="4"/>
+          <rect x="14" y="4" width="1" height="8"/>
+        </g>
+        <g fill="#f2f7ff" class="pk-cross">
+          <rect x="12" y="5" width="1" height="1"/>
+          <rect x="13" y="6" width="1" height="1"/>
+          <rect x="14" y="7" width="1" height="1"/>
+          <rect x="14" y="5" width="1" height="1"/>
+          <rect x="12" y="7" width="1" height="1"/>
+        </g>
+      </svg>
+    </button>
+
+    <a class="pkey" href="404.html" aria-label="关机（去看看 404 页）" title="关机">
+      <svg class="pkey-icon" viewBox="0 0 16 16" aria-hidden="true">
+        <g fill="#f2f7ff">
+          <rect x="7" y="2" width="2" height="6"/>
+          <rect x="4" y="6" width="2" height="2"/>
+          <rect x="10" y="6" width="2" height="2"/>
+          <rect x="3" y="8" width="2" height="4"/>
+          <rect x="11" y="8" width="2" height="4"/>
+          <rect x="4" y="12" width="2" height="2"/>
+          <rect x="10" y="12" width="2" height="2"/>
+          <rect x="6" y="13" width="4" height="2"/>
+        </g>
+      </svg>
+    </a>
   </div>
 
   <audio id="bgm" src="audio/bluehour-bgm.mp3" loop preload="metadata"></audio>
@@ -485,11 +593,11 @@
         btn.textContent = '▶';
       });
 
-      // 静音 / 取消静音（右下角音量键）
+      // 静音 / 取消静音（右下角像素音量键）
       var volBtn = document.getElementById('pvol');
       volBtn.addEventListener('click', function () {
         audio.muted = !audio.muted;
-        volBtn.textContent = audio.muted ? '🔇' : '🔊';
+        volBtn.classList.toggle('is-muted', audio.muted);
         var label = audio.muted ? '取消静音' : '静音';
         volBtn.setAttribute('aria-label', label);
         volBtn.title = label;
